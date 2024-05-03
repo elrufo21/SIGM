@@ -1,0 +1,14 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore .expo
+.expo/
+
+# Ignore .expo-cli
+.expo-cli/
+
+# Ignore .env
+.env
+
+# Ignore .env.local
+.env.local

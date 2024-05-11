@@ -1,9 +1,12 @@
 
 import React from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
+import { TextInput } from 'react-native-paper'
 const CreateEmployeScreen = () => {
     return(
-        <Text>Crear Empleados</Text>
+        <View> 
+            <TextInput label="Nombres"/>
+        </View>
     )
 }
 export default CreateEmployeScreen

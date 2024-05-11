@@ -3,6 +3,8 @@ import EmployeesScreen from "./EmployeesScreen";
 import CreateEmployeScreen from "./CreateEmployeeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import EmployeeScreen from "./EmployeeScreen";
+import UpdateEmployeeScreen from "./UpdateEmployeeScreen";
+
 
 const Tab = createBottomTabNavigator();
 const Employees = () => {
@@ -11,6 +13,7 @@ const Employees = () => {
       <Tab.Screen  name="Lista" component={EmployeesScreen} />
       <Tab.Screen name="Crear" component={CreateEmployeScreen} />
       <Tab.Screen name="Empleado" component={EmployeeScreen} />
+      <Tab.Screen name="Actualizar" component={UpdateEmployeeScreen} />
     </Tab.Navigator>
   );
 };

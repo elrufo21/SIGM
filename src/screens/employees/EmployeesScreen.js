@@ -5,6 +5,8 @@ import { Provider as PaperProvider, Dialog, Portal } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 
 
+
+
 const EmployeesScreen = ({ navigation }) => {
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPageList] = React.useState([4, 8, 12]);
@@ -15,6 +17,7 @@ const EmployeesScreen = ({ navigation }) => {
     return items.find((employee) => employee.id === id);
   };
   const onItemsPerPageChange = (value) => setItemsPerPage(value);
+
 
   const [items,SetItems] = React.useState([
     {
@@ -58,7 +61,7 @@ const EmployeesScreen = ({ navigation }) => {
       status: "1",
     },
     {
-      id: 7,
+      id: 6,
       names: "Test",
       surnames: "testing",
       rol: "Mecanico",
@@ -76,10 +79,13 @@ const EmployeesScreen = ({ navigation }) => {
   ]);
   const [visible, setVisible] = React.useState(false);
 
+
   const hideDialog = () => setVisible(false);
 
+
   const handleEditEmployee = (id) => {
-    setVisible(true);
+    const employee = getEmployeeById(id);
+    navigation.navigate("Actualizar", { employee,SetItems,items });
   };
   const handleDeleteEmployee = (id) => {
     const updatedItems = items.filter((employee) => employee.id !== id);
@@ -98,8 +104,10 @@ const EmployeesScreen = ({ navigation }) => {
     }
   };
 
+
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, items.length);
+
 
   React.useEffect(() => {
     setPage(0);
@@ -111,13 +119,14 @@ const EmployeesScreen = ({ navigation }) => {
           <DataTable.Title>Name</DataTable.Title>
           <DataTable.Title>Rol</DataTable.Title>
 
+
           <DataTable.Title>Accion</DataTable.Title>
         </DataTable.Header>
-
         {items.slice(from, to).map((item) => (
           <DataTable.Row key={item.id}>
             <DataTable.Cell>{item.names + " " + item.surnames}</DataTable.Cell>
             <DataTable.Cell>{item.rol}</DataTable.Cell>
+
 
             <DataTable.Cell>
               {" "}
@@ -133,6 +142,7 @@ const EmployeesScreen = ({ navigation }) => {
             </DataTable.Cell>
           </DataTable.Row>
         ))}
+
 
         <DataTable.Pagination
           page={page}

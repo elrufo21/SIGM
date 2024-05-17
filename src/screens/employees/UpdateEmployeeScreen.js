@@ -1,47 +1,81 @@
-import { Text, View } from "react-native"
-import { Button, TextInput } from "react-native-paper"
+import { useContext, useEffect, useState } from "react";
+import { Text, View } from "react-native";
+import { Button, TextInput } from "react-native-paper";
+import SelectInput from "../../components/SelectImput";
+import EmployeesContext from "../../context/employees/EmployeesContext";
+import FormComponent from "../../components/FormComponent";
 
+const UpdateEmployeeScreen = () => {
+  const { selectedEmployee, updateEmployee,getProfile } = useContext(EmployeesContext);
+  const [updatedEmployee, setUpdatedEmployee] = useState(selectedEmployee);
+  const [selectedValue, setSelectedValue] = useState("Mecanico");
+  useEffect(() => {
+    setUpdatedEmployee(selectedEmployee);
+  }, [selectedEmployee]);
+  
+  const handleUpdate = () => {
+    setUpdatedEmployee({ ...updatedEmployee, rol: selectedValue });
+    
+    updateEmployee(updatedEmployee.id,updatedEmployee);
+    getProfile(updatedEmployee.id)
+  };
 
-const UpdateEmployeeScreen=({route})=>{
-    if (!route.params || !route.params.employee || !route.params.SetItems) {
-        return (
-          <View>
-            <Text>Seleccione un empleado.</Text>
-          </View>
-        );
-      }
-    const {employee,SetItems,items} = route.params;
-   
-   
-    return(
-        <View>
-            <Text>Actualizar empleado</Text>
-            <TextInput
-            value={employee.names}
-            />
-            <TextInput
-            value={employee.surnames}
-            />
-            <TextInput
-            value={employee.rol}
-            />
-            <TextInput
-            value={employee.phone}
-            />
-            <TextInput
-            value={employee.status}
-            />
-           
-            <Button mode="contained" onPress={() => SetItems([])}>
-                Actualizar
-            </Button>
+  const fields = [
+    {
+      name: "names",
+      label: "Nombres",
+      value: updatedEmployee.names,
+      type: "text",
+      setValue: (text) =>
+        setUpdatedEmployee({ ...updatedEmployee, names: text }),
+    },
+    {
+      name: "surnames",
+      label: "Apellidos",
+      value: updatedEmployee.surnames,
+      type: "text",
+      setValue: (text) =>
+        setUpdatedEmployee({ ...updatedEmployee, surnames: text }),
+    },
+    {
+      name: "phone",
+      label: "Telefono",
+      value: updatedEmployee.phone,
+      type: "text",
+      setValue: (text) =>
+        setUpdatedEmployee({ ...updatedEmployee, phone: text }),
+    },
+    {
+      name: "rol",
+      label: "Rol",
+      value: updatedEmployee.rol,
+      type: "select",
+      options: [
+        { label: "Mecanico", value: "1" },
+        { label: "Practicante", value: "2" },
+        { label: "Limpieza", value: "3" },
+        { label: "Programador", value: "4" },
+      ],
+      setValue: (text) => setUpdatedEmployee({ ...updatedEmployee, rol: text }),
+      valueSelectImput: selectedValue,
+      setValueSelectInput: (text) => setSelectedValue(text),
+    },
+  ];
 
+  return (
+    <View>
+      {selectedEmployee ? (
+        <>
+          <FormComponent fields={fields} />
+          <Button mode="contained" onPress={handleUpdate}>
+            Actualizar
+          </Button>
+        </>
+      ) : (
+        <Text>No hay un usuario seleccionado</Text>
+      )}
+    </View>
+  );
+};
 
-
-
-        </View>
-    )
-}
-
-
-export default UpdateEmployeeScreen
+export default UpdateEmployeeScreen;

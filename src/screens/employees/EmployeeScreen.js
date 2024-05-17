@@ -1,28 +1,23 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
-const EmployeeScreen = ({ route }) => {
-    const data = route.params;
+import * as React from "react";
+import { Text, View } from "react-native";
+import EmployeesContext from "../../context/employees/EmployeesContext";
+const EmployeeScreen = () => {
+  const { selectedEmployee } = React.useContext(EmployeesContext);
 
-
-    if (!data || !data.employee) {
-        return (
-            <View>
-                <Text>No se encontraron datos de empleado.</Text>
-            </View>
-        );
-    }
-
-
-    return (
-        <View>
-            <Text>{data.employee.names}</Text>
-            <Text>{data.employee.surnames}</Text>
-            <Text>{data.employee.rol}</Text>
-            <Text>{data.employee.phone}</Text>
-            <Text>{data.employee.status}</Text>
-        </View>
-    );
-}
-
+  return (
+    <View>
+      {selectedEmployee ? (
+        <>
+          <Text>{selectedEmployee.names}</Text>
+          <Text>{selectedEmployee.surnames}</Text>
+          <Text>{selectedEmployee.rol}</Text>
+          <Text>{selectedEmployee.phone}</Text>
+        </>
+      ) : (
+        <Text>No hay un usuario seleccionado</Text>
+      )}
+    </View>
+  );
+};
 
 export default EmployeeScreen;

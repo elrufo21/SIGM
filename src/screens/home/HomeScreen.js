@@ -10,10 +10,14 @@ import {
 } from "react-native-chart-kit";
 import { Button } from "react-native-paper";
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
+  
   return (
-    <View style={{ flex: 1, alignItems: "center"}}>
-      <Button mode="contained" onPress={() => console.log("Pressed")}> Generar Reporte</Button>
+    <View style={{ flex: 1, alignItems: "center" }}>
+      <Button mode="contained" onPress={() => console.log("Pressed")}>
+        
+        Hola Charlotte
+      </Button>
       <Text>Ganancias mensuales</Text>
       <LineChart
         data={{

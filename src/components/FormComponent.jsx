@@ -1,6 +1,7 @@
-import { View } from "react-native";
-import { TextInput } from "react-native-paper";
-import SelectInput from "./SelectImput";
+import React from 'react';
+import { View } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import SelectInput from './SelectImput'; // Corregir el nombre del archivo de importación
 
 const FormComponent = ({ fields }) => {
   return (
@@ -13,14 +14,24 @@ const FormComponent = ({ fields }) => {
           name,
           type,
           options,
-          valueSelectImput,
+          valueSelectInput,
           setValueSelectInput,
         }) => {
-          return type === "select" ? (
+          return type === 'select' ? (
             <SelectInput
               options={options}
-              state={valueSelectImput}
+              state={valueSelectInput}
               setState={setValueSelectInput}
+            />
+          ) : type === 'description' ? (
+            <TextInput
+              label={label}
+              value={value}
+              onChangeText={setValue}
+              key={name}
+              multiline={true}
+              numberOfLines={4} // Ajusta el número de líneas visibles
+              style={{ height: 120, fontSize: 16 }} // Personaliza el tamaño del TextInput
             />
           ) : (
             <TextInput
@@ -35,6 +46,6 @@ const FormComponent = ({ fields }) => {
       )}
     </View>
   );
-};
+}
 
 export default FormComponent;

@@ -14,10 +14,11 @@ const UpdateEmployeeScreen = () => {
   }, [selectedEmployee]);
   
   const handleUpdate = () => {
-    setUpdatedEmployee({ ...updatedEmployee, rol: selectedValue });
-    
-    updateEmployee(updatedEmployee.id,updatedEmployee);
-    getProfile(updatedEmployee.id)
+    if (selectedEmployee) {
+      setUpdatedEmployee({ ...updatedEmployee, rol: selectedValue });
+      updateEmployee(updatedEmployee.id, updatedEmployee);
+      getProfile(updatedEmployee.id);
+    }
   };
 
   const fields = [

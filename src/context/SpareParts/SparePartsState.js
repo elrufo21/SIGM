@@ -11,13 +11,23 @@ const SparePartState = (props) => {
   const [state, dispatch] = useReducer(SparePartsReducer, initialState);
 
   const getSpareParts = () => {
-    console.log(SparePartsList)
+    console.log(SparePartsList);
     dispatch({ type: "GET_SPARE_PARTS", payload: SparePartsList });
-  }
+  };
+  const createSparePart = (sparePart) => {
+    const newSpareParts = [...state.spareParts, sparePart];
+    dispatch({ type: "CREATE_SPARE_PARTS", payload: newSpareParts });
+
+  };
 
   return (
     <SparePartsContext.Provider
-      value={{ spareParts: state.spareParts, sparePart: state.selectedTool, getSpareParts }}
+      value={{
+        spareParts: state.spareParts,
+        sparePart: state.selectedTool,
+        getSpareParts,
+        createSparePart,
+      }}
     >
       {props.children}
     </SparePartsContext.Provider>

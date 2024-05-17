@@ -1,26 +1,35 @@
 import { useReducer } from "react";
-import ToolsContext from "./ToolsContext";
-import { ToolsList } from "../../data/data";
-import ToolsReducer from "./ToolsReducer";
+import TicketsContext from "./TicketsContext";
+import { ticketsList } from "../../data/data";
+import TicketReducer from "./TicketsReducer";
 
-const ToolsState = (props) => {
+const TicketsState = (props) => {
   const initialState = {
-    tools: [],
-    selectedTool: null,
+    tickets: [],
+    selectedTicket: null,
   };
-  const [state, dispatch] = useReducer(ToolsReducer, initialState);
+  const [state, dispatch] = useReducer(TicketReducer, initialState);
 
-  const getTools = () => {
-    dispatch({ type: "GET_TOOLS", payload: ToolsList });
-  }
-
+  const getTickets = () => {
+    console.log(ticketsList);
+    dispatch({ type: "GET_TICKETS", payload: ticketsList });
+  };
+  const createTicket = (ticket) => {
+    const newTickets = [...state.tickets, ticket];
+    dispatch({ type: "CREATE_TICKET", payload: newTickets });
+  };
   return (
-    <ToolsContext.Provider
-      value={{ tools: state.tools, tool: state.selectedTool, getTools }}
+    <TicketsContext.Provider
+      value={{
+        tickets: state.tickets,
+        ticket: state.selectedTicket,
+        getTickets,
+        createTicket,
+      }}
     >
       {props.children}
-    </ToolsContext.Provider>
+    </TicketsContext.Provider>
   );
 };
 
-export default ToolsState;
+export default TicketsState;

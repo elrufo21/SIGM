@@ -18,12 +18,27 @@ const CreateSparePartScreen = ({ navigation }) => {
       setValue: (text) => setData({ ...data, name: text }),
     },
     {
+      name: "location",
+      label: "Ubicacion",
+      value: data.location,
+      type: "text",
+      setValue: (text) => setData({ ...data, location: text }),
+    },
+    {
+      name: "price",
+      label: "Precion por unidad",
+      value: data.price,
+      type: "number",
+      setValue: (text) => setData({ ...data, price: text }),
+    },
+    {
       name: "stock",
       label: "Stock",
       value: data.stock,
       type: "number",
       setValue: (text) => setData({ ...data, stock: text }),
     },
+    
     {
       name: "type",
       label: "Tipo",
@@ -52,7 +67,8 @@ const CreateSparePartScreen = ({ navigation }) => {
   
   const buttonHandleClick = () => {
     const newData = { ...data, type: selectedValue };
-    
+    newData.price = parseInt(newData.price); // Convertir el precio a un entero
+    console.log(newData);
     createSparePart(newData);
     setData({});
     navigation.navigate("Lista");

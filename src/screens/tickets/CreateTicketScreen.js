@@ -13,13 +13,16 @@ import { Picker } from "@react-native-picker/picker";
 import { getDataById } from "../../helpers/helpers";
 
 const CreateTicket = () => {
-  const { dataCreateTicket, getDataCreateTicket, createTicket } = useContext(TicketsContext);
+  const { dataCreateTicket, getDataCreateTicket, createTicket } =
+    useContext(TicketsContext);
   const [formFields, setFormFields] = useState([
     { name: "title", label: "Title", value: "", type: "text" },
     { name: "description", label: "Description", value: "", type: "text" },
   ]);
+
   const [ticketData, setTicketData] = useState({
     description: "",
+    cost: 0,
     employees: [],
     tools: [],
     spare_parts: [],
@@ -120,10 +123,20 @@ const CreateTicket = () => {
   };
 
   const buttonHandleClick = () => {
-    
-    const d = {...ticketData,status:"a"}
-    console.log(d)
-    createTicket(d);
+    const parsedTicketData = {
+      ...ticketData,
+      cost: parseInt(ticketData.cost),
+      spare_parts: ticketData.spare_parts.map((part) => ({
+        ...part,
+        quantity: parseInt(part.quantity),
+      })),
+    };
+
+    // Agrega el estado 'A' (activo)
+    const dataToSend = { ...parsedTicketData, status: "A" };
+
+    console.log(dataToSend);
+    createTicket(dataToSend);
   };
 
   if (loading) {
@@ -135,12 +148,6 @@ const CreateTicket = () => {
       />
     );
   }
-  /*const tableData = [
-    ["1", "2", "3",""],
-    ["a", "b", "c",""],
-    ["1", "2", "3",""],
-    ["a", "b", "c",""],
-  ];*/
 
   const buttonAddHandleClick = (type) => {
     switch (type) {
@@ -166,7 +173,6 @@ const CreateTicket = () => {
         break;
       case "spareParts":
         const dS = getDataById(dataCreateTicket.spare_parts, sparePartSelect);
-        
 
         setTicketData((prevData) => ({
           ...prevData,
@@ -190,13 +196,21 @@ const CreateTicket = () => {
       <Text>Crear ticket</Text>
       <View>
         <TextInput
+          label={"Precio"}
+          value={ticketData.cost}
+          onChange={(e) =>
+            setTicketData({ ...ticketData, cost: e.nativeEvent.text })
+          }
+          keyboardType="numeric"
+        />
+        <TextInput
           label="Description"
           value={ticketData.description}
           onChangeText={(text) =>
             setTicketData({ ...ticketData, description: text })
           }
           multiline={true}
-          numberOfLines={4} // Ajusta el número de líneas visibles
+          numberOfLines={4}
           style={{ height: 120, fontSize: 16 }}
         />
       </View>

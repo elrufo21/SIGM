@@ -14,16 +14,14 @@ const CreateEmployeScreen = ({ navigation, route }) => {
 
   /* */
 
-  const buttonHandleClick = () => {
-    setData((prevData) => ({
-      ...prevData,
-      rol: selectedValue,
-      status: "1",
-      id: employees.length + 1,
-    }));
-    createEmployee(data);
-
-    navigation.navigate("Lista");
+  const buttonHandleClick = async () => {
+    const emp = {...data, rol: selectedValue, status: "1", id: employees.length + 1};
+  
+    console.log(emp);
+  
+    createEmployee(emp); 
+  
+    navigation.navigate("Lista"); 
   };
 
   const fields = [

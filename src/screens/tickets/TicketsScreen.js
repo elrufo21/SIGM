@@ -27,7 +27,7 @@ const TicketsScreen = ({ navigation }) => {
     setPage(0);
   };
   const titles = [
-    { key: "ticket_id", value: "Ticket" },
+    { key: "id", value: "Ticket" },
     { key: "ticket_status", value: "Estado" },
     { key: "ticket_registration_date", value: "Fecha de creacion" },
   ];

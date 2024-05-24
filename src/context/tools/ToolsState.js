@@ -2,6 +2,7 @@ import { useReducer } from "react";
 import ToolsContext from "./ToolsContext";
 import { ToolsList } from "../../data/data";
 import ToolsReducer from "./ToolsReducer";
+import { getData } from "../../helpers/helpers";
 
 const ToolsState = (props) => {
   const initialState = {
@@ -10,9 +11,10 @@ const ToolsState = (props) => {
   };
   const [state, dispatch] = useReducer(ToolsReducer, initialState);
 
-  const getTools = () => {
-    dispatch({ type: "GET_TOOLS", payload: ToolsList });
-  }
+  const getTools = async () => {
+    const list = await getData("http://192.168.56.1:3000/api/tools");
+    dispatch({ type: "GET_TOOLS", payload: list });
+  };
 
   return (
     <ToolsContext.Provider

@@ -114,14 +114,14 @@ export const SparePartsList = [
     id: 2,
     name: "Filtro de gasolina",
     stock: "10",
-    type: "Filtros",
+    type: "filtros",
     description: "",
   },
   {
     id: 3,
     name: "Pastilla de freno",
     stock: "5",
-    type: "Pastillas de frenos",
+    type: "frenos",
     description: "",
   },
   {
@@ -305,3 +305,16 @@ export const ticketsList = [
     ],
   },
 ];
+const vE = "#05FF00";
+
+dataCreateTicket = {
+  description: "Reparación de frenos",
+  status: "Pendiente",
+  cost: 250.0,
+  employees: [1, 2], // ID de los empleados asignados al ticket
+  spare_parts: [
+    { id: 2, quantity: 4 }, // ID de la pieza de repuesto y cantidad utilizada
+    { id: 3, quantity: 2 },
+  ],
+  tools: [1, 3], // ID de las herramientas utilizadas en el ticket
+};

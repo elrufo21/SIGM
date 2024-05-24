@@ -4,6 +4,7 @@ import {
   UPDATE_TICKET,
   CREATE_TICKET,
   DELETE_TICKET,
+  GET_DATA_CREATE_TICKET
 } from "../types";
 export default (state, action) => {
   const { payload, type } = action;
@@ -34,6 +35,11 @@ export default (state, action) => {
         ...state,
         tickets: payload,
       };
+    case GET_DATA_CREATE_TICKET:
+      return {
+        ...state,
+        dataCreateTicket: payload,
+      }
     default:
       return state;
   }

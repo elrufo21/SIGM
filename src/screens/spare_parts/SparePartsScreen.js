@@ -3,8 +3,8 @@ import CustomDataTable from "../../components/CustomDataTable";
 import { useContext, useEffect, useState } from "react";
 import SparePartsContext from "../../context/SpareParts/SparePartsContext";
 
-const SparePartsScreen = () => {
-  const { getSpareParts, spareParts } = useContext(SparePartsContext);
+const SparePartsScreen = ({navigation}) => {
+  const { getSpareParts, spareParts,getSparePart  } = useContext(SparePartsContext);
   useEffect(() => {
     getSpareParts();
   }, []);
@@ -13,13 +13,14 @@ const SparePartsScreen = () => {
   const [numberOfItemsPerPageList] = useState([4, 8, 12]);
   const [itemsPerPage, setItemsPerPage] = useState(numberOfItemsPerPageList[0]);
   const handleEditTool = (id) => {
-    console.log(id);
+    getSparePart(id)
+    navigation.navigate("Actualizar");
   };
   const handleDeleteTool = (id) => {
     console.log(id);
   };
   const handleViewTool = (id) => {
-    console.log(id);
+    getSparePart(id)
   };
 
   const onItemsPerPageChange = (value) => {
@@ -29,7 +30,7 @@ const SparePartsScreen = () => {
   const titles = [
     { key: "name", value: "Repuesto" },
     { key: "type", value: "Tipo" },
-    { key: "status", value: "Estado" },
+    { key: "stock", value: "Cantidad" },
   ];
   const actions = [
     {

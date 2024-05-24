@@ -5,12 +5,14 @@ import SelectInput from "../../components/SelectImput";
 import EmployeesContext from "../../context/employees/EmployeesContext";
 import FormComponent from "../../components/FormComponent";
 
-const UpdateEmployeeScreen = () => {
+const UpdateEmployeeScreen = ({navigation}) => {
   const { selectedEmployee, updateEmployee,getProfile } = useContext(EmployeesContext);
   const [updatedEmployee, setUpdatedEmployee] = useState(selectedEmployee);
   const [selectedValue, setSelectedValue] = useState("Mecanico");
+  
   useEffect(() => {
     setUpdatedEmployee(selectedEmployee);
+   
   }, [selectedEmployee]);
   
   const handleUpdate = () => {

@@ -4,14 +4,15 @@ import { useContext, useState } from "react";
 import SparePartsContext from "../../context/SpareParts/SparePartsContext";
 import { Button } from "react-native-paper";
 
-const CreateSparePartScreen = ({navigation}) => {
+const CreateSparePartScreen = ({ navigation }) => {
   const { createSparePart, spareParts } = useContext(SparePartsContext);
-  const [selectedValue, setSelectedValue] = useState("Mecanico");
+  const [selectedValue, setSelectedValue] = useState("aceites");
   const [data, setData] = useState({});
+  
   const fields = [
     {
       name: "name",
-      label: "Nombre",
+      label: "Nombres",
       value: data.name,
       type: "text",
       setValue: (text) => setData({ ...data, name: text }),
@@ -24,21 +25,19 @@ const CreateSparePartScreen = ({navigation}) => {
       setValue: (text) => setData({ ...data, stock: text }),
     },
     {
-        name: "rol",
-        label: "Rol",
-        value: data.rol,
-        type: "select",
-        options: [
-          { label: "Mecanico", value: "1" },
-          { label: "Practicante", value: "2" },
-  
-          { label: "Limpieza", value: "3" },
-          { label: "Programador", value: "4" },
-        ],
-        setValue: (text) => setData({ ...data, rol: text }),
-        valueSelectImput: selectedValue,
-        setValueSelectInput: (text) => setSelectedValue(text),
-      },
+      name: "type",
+      label: "Tipo",
+      value: selectedValue,
+      type: "select",
+      options: [
+        { label: "Aceites", value: "aceites" },
+        { label: "Filtros", value: "filtros" },
+        { label: "Frenos", value: "frenos" },
+        { label: "Otros", value: "otros" },
+      ],
+      valueSelectInput: selectedValue,
+      setValueSelectInput: (text) => setSelectedValue(text),
+    },
     {
       name: "description",
       label: "Descripcion",
@@ -50,22 +49,24 @@ const CreateSparePartScreen = ({navigation}) => {
       fontSize: 15,
     },
   ];
+  
   const buttonHandleClick = () => {
-    setData((prevData) => ({
-      ...prevData,
-      id: spareParts.length + 1,
-    }));
-    createSparePart(data);
-    setData({})
-
+    const newData = { ...data, type: selectedValue };
+    
+    createSparePart(newData);
+    setData({});
     navigation.navigate("Lista");
   };
+
   return (
     <>
       <Text>CreateSparePart</Text>
-      <FormComponent fields={fields} />
-      <Button mode="contained" onPress={buttonHandleClick} >Crear</Button>
+      <FormComponent fields={fields} buttonSelect={false} />
+      <Button mode="contained" onPress={buttonHandleClick}>
+        Crear
+      </Button>
     </>
   );
 };
+
 export default CreateSparePartScreen;

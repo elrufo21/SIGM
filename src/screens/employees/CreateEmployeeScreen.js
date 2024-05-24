@@ -8,7 +8,7 @@ const CreateEmployeScreen = ({ navigation, route }) => {
   const [data, setData] = useState({});
   /*Valores para el select input */
   //Lo del picker mas adelante ira en un context
-  //Al momento de crear un primer empleado no se carga el rol y algunos componentes necesarios.
+  //Al momento de crear un primer empleado no se carga el rol y algunos campos necesarios.
 
   const [selectedValue, setSelectedValue] = useState("Mecanico");
 
@@ -51,19 +51,18 @@ const CreateEmployeScreen = ({ navigation, route }) => {
     {
       name: "rol",
       label: "Rol",
-      value: data.rol,
+      value: selectedValue,
       type: "select",
       options: [
-        { label: "Mecanico", value: "1" },
-        { label: "Practicante", value: "2" },
+        { label: "Mecanico", value: "Mecanico" },
+        { label: "Programador", value: "Programador" },
 
-        { label: "Limpieza", value: "3" },
-        { label: "Programador", value: "4" },
+        { label: "Limpieza", value: "Limpieza" },
+        { label: "Practicante", value: "Practicante" },
       ],
-      setValue: (text) => setData({ ...data, rol: text }),
-      valueSelectImput: selectedValue,
+      valueSelectInput: selectedValue,
       setValueSelectInput: (text) => setSelectedValue(text),
-    },
+    },  
   ];
   return (
     <View>

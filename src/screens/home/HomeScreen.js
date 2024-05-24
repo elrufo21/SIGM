@@ -9,13 +9,16 @@ import {
   StackedBarChart,
 } from "react-native-chart-kit";
 import { Button } from "react-native-paper";
+import { getData } from "../../helpers/helpers";
 
-const HomeScreen = ({navigation}) => {
-  
+const HomeScreen = ({ navigation }) => {
+  const url = "http://192.168.56.1:3000/api/employee/3"
+  const clicked = () => {
+    getData(url)
+  }
   return (
     <View style={{ flex: 1, alignItems: "center" }}>
-      <Button mode="contained" onPress={() => console.log("Pressed")}>
-        
+      <Button mode="contained" onPress={() => clicked()}>
         Hola Charlotte
       </Button>
       <Text>Ganancias mensuales</Text>

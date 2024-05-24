@@ -2,6 +2,12 @@ import React, { useReducer } from "react";
 import EmployeesReducer from "./EmployeesReducer";
 import EmployeesContext from "./EmployeesContext";
 import { EmployeesList } from "../../data/data";
+import {
+  createData,
+  deleteData,
+  getData,
+  updateData,
+} from "../../helpers/helpers";
 const EmployeesState = (props) => {
   const initialState = {
     employees: [],
@@ -9,33 +15,46 @@ const EmployeesState = (props) => {
   };
 
   const [state, dispatch] = useReducer(EmployeesReducer, initialState);
-  const getEmployees = () => {
-    dispatch({ type: "GET_EMPLOYEES", payload: EmployeesList });
+  const getEmployees = async () => {
+    try {
+      const list = await getData("https://sigm-api.onrender.com/api/employees");
+      dispatch({ type: "GET_EMPLOYEES", payload: list });
+    } catch (error) {
+      console.error("Error al obtener la lista de empleados:", error);
+    }
   };
-  const getProfile = (id) => {
+  const getProfile = async (id) => {
+    const data = await getData("https://sigm-api.onrender.com/api/employeesTickets/" + id);
     dispatch({
       type: "GET_PROFILE",
-      payload: state.employees.find((e) => e.id === id),
+      payload: data,
     });
   };
-  const updateEmployee = (id, updatedData) => {
+  const updateEmployee = async (id, updatedData) => {
+    const url = "https://sigm-api.onrender.com/api/employee/" + id;
     const updatedEmployees = state.employees.map((employee) =>
       employee.id === id ? { ...employee, ...updatedData } : employee
     );
+    const rs = await updateData(url, updatedData);
     dispatch({ type: "UPDATE_EMPLOYEE", payload: updatedEmployees });
+    console.log(rs);
   };
 
-  const createEmployee = (employee) => {
+  const createEmployee = async (employee) => {
     const newEmployees = [...state.employees, employee];
+    const rs = await createData("https://sigm-api.onrender.com/api/employees", employee);
     dispatch({ type: "CREATE_EMPLOYEE", payload: newEmployees });
+    console.log(rs);
   };
 
-  const deleteEmployee = (id) => {
+  const deleteEmployee = async (id) => {
     const updatedEmployees = state.employees.filter(
       (employee) => employee.id !== id
     );
+    const rs = await deleteData("https://sigm-api.onrender.com/api/employee/" + id);
     dispatch({ type: "DELETE_EMPLOYEE", payload: updatedEmployees });
-  }
+    console.log(rs);
+  };
 
   return (
     <EmployeesContext.Provider
@@ -46,7 +65,7 @@ const EmployeesState = (props) => {
         getProfile,
         updateEmployee,
         createEmployee,
-        deleteEmployee
+        deleteEmployee,
       }}
     >
       {props.children}

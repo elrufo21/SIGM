@@ -1,9 +1,9 @@
-import React from 'react';
-import { View } from 'react-native';
-import { TextInput } from 'react-native-paper';
-import SelectInput from './SelectImput'; // Corregir el nombre del archivo de importación
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { Button, TextInput } from "react-native-paper";
+import SelectInput from "./SelectImput"; // Corregir el nombre del archivo de importación
 
-const FormComponent = ({ fields }) => {
+const FormComponent = ({ fields, buttonSelect }) => {
   return (
     <View>
       {fields.map(
@@ -16,14 +16,34 @@ const FormComponent = ({ fields }) => {
           options,
           valueSelectInput,
           setValueSelectInput,
+          handleClickSelect,
+          quantity,
         }) => {
-          return type === 'select' ? (
-            <SelectInput
-              options={options}
-              state={valueSelectInput}
-              setState={setValueSelectInput}
-            />
-          ) : type === 'description' ? (
+          return type === "select" ? (
+            buttonSelect ? (
+              <View style={styles.row}>
+                <SelectInput
+                  options={options}
+                  state={valueSelectInput}
+                  setState={setValueSelectInput}
+                />
+                {quantity ? <TextInput /> : null}
+                <Button
+                  mode="contained"
+                  style={styles.button}
+                  onPress={handleClickSelect}
+                >
+                  Agregar
+                </Button>
+              </View>
+            ) : (
+              <SelectInput
+                options={options}
+                state={valueSelectInput}
+                setState={setValueSelectInput}
+              />
+            )
+          ) : type === "description" ? (
             <TextInput
               label={label}
               value={value}
@@ -46,6 +66,19 @@ const FormComponent = ({ fields }) => {
       )}
     </View>
   );
-}
+};
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  selectInput: {
+    flex: 1,
+  },
+  button: {
+    marginLeft: 5,
+  },
+});
 
 export default FormComponent;

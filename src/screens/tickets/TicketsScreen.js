@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { Text } from "react-native";
 import TicketsContext from "../../context/Tickets/TicketsContext";
 import CustomDataTable from "../../components/CustomDataTable";
+import { ScrollView } from "react-native-gesture-handler";
+import { Avatar, Button, Card } from "react-native-paper";
 const TicketsScreen = ({ navigation }) => {
   const { getTickets, tickets, getTicket } = useContext(TicketsContext);
   useEffect(() => {
@@ -47,8 +49,43 @@ const TicketsScreen = ({ navigation }) => {
     { icon: "eye", color: "green", size: 24, handleAction: handleViewTicket },
   ];
 
+  //Nueva visualizacion de tickets
+
+  const leftActive = (props) => (
+    <Avatar.Icon icon="folde" color="green" {...props} />
+  );
+
   return (
-    <>
+    <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+      {tickets.map((ticket) => (
+        <Card
+          mode="contained"
+          style={{ marginTop: 10, marginBottom: 10, width: 380 }}
+        >
+          <Card.Title
+            title={`Ticket: ${ticket.id}`}
+            subtitle={ticket.ticket_registration_date}
+            left={(props) => <Avatar.Icon icon="folder" {...props} />}
+            right={(props) => (
+              <Button
+                mode="contained"
+                icon={"check"}
+                onPress={() => console.log(ticket.id)}
+                {...props}
+                style={{ backgroundColor: "green", marginRight: 10 }}
+              >
+                Finalizar
+              </Button>
+            )}
+          />
+
+          <Card.Content>
+            <Text>{ticket.ticket_description}</Text>
+          </Card.Content>
+        </Card>
+      ))}
+    </ScrollView>
+    /*<>
       <CustomDataTable
         titles={titles}
         list={tickets}
@@ -59,7 +96,7 @@ const TicketsScreen = ({ navigation }) => {
         onPageChange={(page) => setPage(page)}
         onItemsPerPageChange={onItemsPerPageChange}
       />
-    </>
+    </>*/
   );
 };
 

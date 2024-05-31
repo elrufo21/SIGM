@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 const SelectInput = ({ options, state, setState }) => {
   return (
     <View style={styles.container}>
-      <Picker onValueChange={(value) => setState(value)} selectedValue={state}>
+      <Picker onValueChange={(value) => setState(value)} selectedValue={state} >
         {options.map((option) => (
           <Picker.Item key={option.value} label={option.label} value={option.value} />
         ))}

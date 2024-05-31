@@ -1,102 +1,138 @@
 import { useContext, useEffect, useState } from "react";
-import { Text } from "react-native";
+import { Dimensions, Text, View } from "react-native";
 import TicketsContext from "../../context/Tickets/TicketsContext";
-import CustomDataTable from "../../components/CustomDataTable";
 import { ScrollView } from "react-native-gesture-handler";
-import { Avatar, Button, Card } from "react-native-paper";
+import { Avatar, Button, Card, TextInput } from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
+
 const TicketsScreen = ({ navigation }) => {
   const { getTickets, tickets, getTicket } = useContext(TicketsContext);
+  const [dataFilter, setDataFilter] = useState({});
+  const [date, setDate] = useState("");
+  const [selectdeStatus, setSelectedStatus] = useState("");
   useEffect(() => {
     getTickets();
   }, []);
-  const [page, setPage] = useState(0);
-  const [numberOfItemsPerPageList] = useState([4, 8, 12]);
-  const [itemsPerPage, setItemsPerPage] = useState(numberOfItemsPerPageList[0]);
 
-  const handleEditTicket = (id) => {
-    console.log(id);
-  };
-  const handleDeleteTicket = (id) => {
-    console.log(id);
-  };
+  useEffect(() => {
+    setDataFilter(tickets);
+  }, [tickets]);
   const handleViewTicket = (id) => {
     console.log(id);
     getTicket(id);
     navigation.navigate("Ticket");
   };
-  const onItemsPerPageChange = (value) => {
-    setItemsPerPage(value);
-    setPage(0);
+  const filterByDate = (tickets, date) => {
+    return tickets.filter((ticket) => ticket.ticket_registration_date === date);
   };
-  const titles = [
-    { key: "id", value: "Ticket" },
-    { key: "ticket_status", value: "Estado" },
-    { key: "ticket_registration_date", value: "Fecha de creacion" },
-  ];
-  const actions = [
-    {
-      icon: "refresh",
-      color: "#2196f3",
-      size: 24,
-      handleAction: handleEditTicket,
-    },
-    {
-      icon: "trash",
-      color: "red",
-      size: 24,
-      handleAction: handleDeleteTicket,
-    },
-    { icon: "eye", color: "green", size: 24, handleAction: handleViewTicket },
-  ];
+  const filterByTicket = (tickets, ticket) => {
+    const id = parseInt(ticket);
+    return tickets.filter((t) => t.id === id);
+  };
+  const filterByStatus = (tickets, status) => {
+    return tickets.filter((ticket) => ticket.ticket_status === status);
+  };
+  const handleFilter = (text, value) => {
+    switch (value) {
+      case "date":
+        if (text == "") {
+          setDataFilter(tickets);
+        } else {
+          setDataFilter(filterByDate(tickets, text));
+        }
+        break;
 
-  //Nueva visualizacion de tickets
-
-  const leftActive = (props) => (
-    <Avatar.Icon icon="folde" color="green" {...props} />
-  );
-
+      case "ticket":
+        if (text == "") {
+          setDataFilter(tickets);
+        } else {
+          setDataFilter(filterByTicket(tickets, text));
+        }
+        break;
+      case "status":
+        if (text == "") {
+          setDataFilter(tickets);
+          setSelectedStatus("");
+        } else {
+          setSelectedStatus(text);
+          setDataFilter(filterByStatus(tickets, text));
+        }
+        break;
+      default:
+        break;
+    }
+  };
   return (
-    <ScrollView contentContainerStyle={{ alignItems: "center" }}>
-      {tickets.map((ticket) => (
-        <Card
-          mode="contained"
-          style={{ marginTop: 10, marginBottom: 10, width: 380 }}
-        >
-          <Card.Title
-            title={`Ticket: ${ticket.id}`}
-            subtitle={ticket.ticket_registration_date}
-            left={(props) => <Avatar.Icon icon="folder" {...props} />}
-            right={(props) => (
-              <Button
-                mode="contained"
-                icon={"check"}
-                onPress={() => console.log(ticket.id)}
-                {...props}
-                style={{ backgroundColor: "green", marginRight: 10 }}
-              >
-                Finalizar
-              </Button>
-            )}
-          />
+    <ScrollView contentContainerStyle={{ alignItems: "center", flexGrow: 1 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          width: Dimensions.get("window").width - 100,
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <TextInput
+          mode="outlined"
+          label="YYY/MM/DD"
+          onChangeText={(text) => handleFilter(text, "date")}
+          style={{ flex: 2, marginRight: 5,fontSize:12 }}
 
-          <Card.Content>
-            <Text>{ticket.ticket_description}</Text>
-          </Card.Content>
-        </Card>
-      ))}
+        />
+        <TextInput
+          mode="outlined"
+          label="Ticket"
+          onChangeText={(text) => handleFilter(text, "ticket")}
+          style={{ flex: 1, marginRight: 5,fontSize:12 }}
+        />
+        <Picker
+          selectedValue={selectdeStatus}
+          onValueChange={(value) => handleFilter(value, "status")}
+          style={{ flex: 2 }}
+        >
+          <Picker.Item label="Todos" value="" />
+          <Picker.Item label="Activo" value="A" />
+          <Picker.Item label="Finalizado" value="F" />
+          <Picker.Item label="Cancelado" value="D" />
+        </Picker>
+      </View>
+
+      {dataFilter.length > 0 ? (
+        <ScrollView>
+          {dataFilter.map((ticket) => (
+            <Card
+              key={ticket.id}
+              mode="contained"
+              style={{ marginTop: 10, marginBottom: 10, width: 380 }}
+            >
+              <Card.Title
+                title={`Ticket: ${ticket.id}`}
+                subtitle={ticket.ticket_registration_date}
+                left={(props) => <Avatar.Icon icon="folder" {...props} />}
+                right={(props) => (
+                  <Button
+                    mode="contained"
+                    icon={"check"}
+                    onPress={() => handleViewTicket(ticket.id)}
+                    {...props}
+                    style={{ backgroundColor: "green", marginRight: 10 }}
+                  >
+                    Ver
+                  </Button>
+                )}
+              />
+              <Card.Content>
+                <Text>{ticket.ticket_description}</Text>
+              </Card.Content>
+            </Card>
+          ))}
+        </ScrollView>
+      ) : (
+        <View style={{ marginTop: 20 }}>
+          <Text>No hay tickets disponibles</Text>
+        </View>
+      )}
     </ScrollView>
-    /*<>
-      <CustomDataTable
-        titles={titles}
-        list={tickets}
-        actions={actions}
-        page={page}
-        itemsPerPage={itemsPerPage}
-        numberOfItemsPerPageList={numberOfItemsPerPageList}
-        onPageChange={(page) => setPage(page)}
-        onItemsPerPageChange={onItemsPerPageChange}
-      />
-    </>*/
   );
 };
 

@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import EmployeeScreen from "./EmployeeScreen";
 import UpdateEmployeeScreen from "./UpdateEmployeeScreen";
 import EmployeesState from "../../context/employees/EmployeesState";
-import { Ionicons,Entypo,MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, Entypo, MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 const Employees = () => {

@@ -16,7 +16,7 @@ const SpareParts = () => {
       >
         <Tab.Screen name="Lista" component={SparePartsScreen} />
         <Tab.Screen name="Crear" component={CreateSparePartScreen} />
-        <Tab.Screen name="Empleado" component={SparePartScreen} />
+        <Tab.Screen name="Ver" component={SparePartScreen} />
         <Tab.Screen name="Actualizar" component={UpdateSparePartScreen} />
       </Tab.Navigator>
     </SparePartState>

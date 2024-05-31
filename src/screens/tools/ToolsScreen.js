@@ -3,8 +3,8 @@ import { Text, View } from "react-native";
 import ToolsContext from "../../context/tools/ToolsContext";
 import CustomDataTable from "../../components/CustomDataTable";
 
-const ToolsScreen = () => {
-  const { getTools, tools } = useContext(ToolsContext);
+const ToolsScreen = ({ navigation }) => {
+  const { getTools, tools,getTool } = useContext(ToolsContext);
   useEffect(() => {
     getTools();
   }, []);
@@ -13,13 +13,15 @@ const ToolsScreen = () => {
   const [numberOfItemsPerPageList] = useState([4, 8, 12]);
   const [itemsPerPage, setItemsPerPage] = useState(numberOfItemsPerPageList[0]);
   const handleEditTool = (id) => {
-    console.log(id);
+    getTool(id);
+    navigation.navigate("Actualizar");
   };
   const handleDeleteTool = (id) => {
     console.log(id);
   };
   const handleViewTool = (id) => {
-    console.log(id);
+    getTool(id);
+    navigation.navigate("Herramienta");
   };
 
   const onItemsPerPageChange = (value) => {

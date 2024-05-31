@@ -3,7 +3,7 @@ import axios from "axios";
 export const getEmployeeById = (id) => {
   return employees.find((employee) => employee.id === id);
 };
-export const getDataById = (data,id) => {
+export const getDataById = (data, id) => {
   return data.find((d) => d.id === id);
 };
 
@@ -34,13 +34,30 @@ export const createData = async (url, newData) => {
   } catch (error) {
     console.error("Error al enviar los datos POST:", error);
   }
-} 
+};
 
 export const deleteData = async (url) => {
   try {
-    const response = await axios.delete(url);
+    const response = await axios.put(url);
     return response.data;
   } catch (error) {
     console.error("Error al enviar los datos DELETE:", error);
   }
-}
+};
+export const updateFinishTicket = async (url) => {
+  try {
+    const response = await axios.put(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error al enviar los datos PUT:", error);
+  }
+};
+
+export const logginUser = async (url,user) => {
+  try {
+    const response = await axios.post(url,user);
+    return response.data;
+  } catch (error) {
+    console.error("Error al enviar los datos POST:", error);
+  }
+};

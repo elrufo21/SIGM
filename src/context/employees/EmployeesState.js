@@ -41,8 +41,9 @@ const EmployeesState = (props) => {
   };
 
   const createEmployee = async (employee) => {
-    const newEmployees = [...state.employees, employee];
+    
     const rs = await createData("https://sigm-api.onrender.com/api/employees", employee);
+    const newEmployees = [...state.employees, rs];
     dispatch({ type: "CREATE_EMPLOYEE", payload: newEmployees });
     console.log(rs);
   };
@@ -51,7 +52,7 @@ const EmployeesState = (props) => {
     const updatedEmployees = state.employees.filter(
       (employee) => employee.id !== id
     );
-    const rs = await deleteData("https://sigm-api.onrender.com/api/employee/" + id);
+    const rs = await deleteData("https://sigm-api.onrender.com/api/deleteEmployee/" + id);
     dispatch({ type: "DELETE_EMPLOYEE", payload: updatedEmployees });
     console.log(rs);
   };

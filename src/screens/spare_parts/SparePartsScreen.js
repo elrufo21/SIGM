@@ -20,6 +20,7 @@ const SparePartsScreen = ({navigation}) => {
     console.log(id);
   };
   const handleViewTool = (id) => {
+    navigation.navigate("Ver");
     getSparePart(id)
   };
 

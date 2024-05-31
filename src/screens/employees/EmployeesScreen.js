@@ -2,7 +2,9 @@ import * as React from "react";
 
 import EmployeesContext from "../../context/employees/EmployeesContext";
 import CustomDataTable from "../../components/CustomDataTable";
-
+import { Card, Text } from "react-native-paper";
+import { Dimensions, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 const EmployeesScreen = ({ navigation }) => {
   const { getEmployees, employees, getProfile, deleteEmployee } =
     React.useContext(EmployeesContext);
@@ -22,8 +24,8 @@ const EmployeesScreen = ({ navigation }) => {
   const handleDeleteEmployee = (id) => {
     deleteEmployee(id);
   };
-  const handleViewEmployee = (id) => {
-    getProfile(id);
+  const handleViewEmployee = async (id) => {
+    await getProfile(id);
     navigation.navigate("Empleado");
   };
   const onItemsPerPageChange = (value) => {
@@ -60,16 +62,26 @@ const EmployeesScreen = ({ navigation }) => {
     setPage(0);
   }, [itemsPerPage]);
   return (
-    <CustomDataTable
-      titles={titles}
-      list={modifiedEmployees}
-      actions={actions}
-      page={page}
-      itemsPerPage={itemsPerPage}
-      numberOfItemsPerPageList={numberOfItemsPerPageList}
-      onPageChange={(page) => setPage(page)}
-      onItemsPerPageChange={onItemsPerPageChange}
-    />
+    <ScrollView>
+      <Card>
+        <Card.Title title="Employees" />
+        <Card.Content>
+          <View style={{ height: Dimensions.get("window").height / 2.5 }}>
+            <CustomDataTable
+              titles={titles}
+              list={modifiedEmployees}
+              actions={actions}
+              page={page}
+              itemsPerPage={itemsPerPage}
+              numberOfItemsPerPageList={numberOfItemsPerPageList}
+              onPageChange={(page) => setPage(page)}
+              onItemsPerPageChange={onItemsPerPageChange}
+            />
+          </View>
+        </Card.Content>
+      </Card>
+      <Text>Hola</Text>
+    </ScrollView>
   );
 };
 export default EmployeesScreen;

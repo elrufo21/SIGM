@@ -1,11 +1,21 @@
-import React, { useState, useContext } from "react";
-import { Image, ImageBackground, Text, View } from "react-native";
+import React, { useContext } from "react";
+import {
+  Image,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { Ionicons } from "@expo/vector-icons";
+import AccountContext from "../context/account/AccountContext";
+
 const CustomDrawer = (props) => {
+  const { account, logout } = useContext(AccountContext);
+
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
@@ -14,29 +24,62 @@ const CustomDrawer = (props) => {
       >
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <View
-            style={{ borderColor: "#ffffff", borderWidth: 3, borderRadius: 83 }}
+            style={{
+              borderColor: "#ffffff",
+              borderWidth: 3,
+              borderRadius: 83,
+              padding: 5,
+            }}
           >
             <Image
               source={require("../Assets/img/profile/profile.jpg")}
-              style={{ width: 120, height: 120, borderRadius: 80 }}
+              style={{ width: 120, height: 120, borderRadius: 60 }}
             />
           </View>
         </View>
-        <View style={{ justifyContent: "center", alignItems: "center",paddingTop:10 }}>
-            <Text style={{fontSize:17, color:"#fff", textAlign:"center"}}>Sistema Integral de Gestion de Mecanica</Text>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: 10,
+          }}
+        >
+          <Text style={{ fontSize: 17, color: "#fff", textAlign: "center" }}>
+            Sistema Integral de Gestion de Mecanica
+          </Text>
+          {account && (
+            <Text style={{ fontSize: 15, color: "#fff", textAlign: "center" }}>
+              {account.name}
+            </Text>
+          )}
         </View>
       </ImageBackground>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
 
-      <View style={{padding: 20, borderTopWidth:1, borderTopColor:"#cccccc"}}>
-        <View style={{flexDirection:"row",alignItems:"center",paddingVertical:15}}>
+      <View
+        style={{
+          padding: 20,
+          borderTopWidth: 1,
+          borderTopColor: "#cccccc",
+        }}
+      >
+        <TouchableOpacity onPress={logout}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              paddingVertical: 15,
+            }}
+          >
             <Ionicons name="log-out-outline" size={24} color="black" />
-            <Text>Salir</Text>
-        </View>
+            <Text style={{ marginLeft: 10, fontSize: 16 }}>Salir</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
+
 export default CustomDrawer;

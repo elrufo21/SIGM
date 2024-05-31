@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import SparePartsContext from "./SparePartsContext";
 import { SparePartsList } from "../../data/data";
 import SparePartsReducer from "./SparePartsReducer";
-import { createData, getData } from "../../helpers/helpers";
+import { createData, getData, updateData } from "../../helpers/helpers";
 
 const SparePartState = (props) => {
   const initialState = {
@@ -16,22 +16,32 @@ const SparePartState = (props) => {
     dispatch({ type: "GET_SPARE_PARTS", payload: list });
     console.log(list);
   };
-  const getSparePart = (id) => {
+  const getSparePart = async (id) => {
+    const sparePart = await getData(
+      "https://sigm-api.onrender.com/api/sparepart/" + id
+    );
     dispatch({
       type: "GET_SPARE_PART",
-      payload: state.spareParts.find((sparePart) => sparePart.id === id),
+      payload: sparePart,
     });
+    console.log(sparePart);
   };
-  const createSparePart = (sparePart) => {
-    const newSpareParts = [...state.spareParts, sparePart];
-    createData("https://sigm-api.onrender.com/api/spareparts", sparePart);
-    console.log(sparePart)
+  const createSparePart = async (sparePart) => {
+    const rs = await createData(
+      "https://sigm-api.onrender.com/api/spareparts",
+      sparePart
+    );
+    const newSpareParts = [...state.spareParts, rs];
+    console.log(sparePart);
     dispatch({ type: "CREATE_SPARE_PARTS", payload: newSpareParts });
-
   };
-  const updateSparePart = (id, updatedData) => {
+  const updateSparePart = async (id, updatedData) => {
+    const rs = await updateData(
+      "https://sigm-api.onrender.com/api/sparepart/" + id,
+      updatedData
+    );
     const updatedSpareParts = state.spareParts.map((sparePart) =>
-      sparePart.id === id ? { ...sparePart, ...updatedData } : sparePart
+      sparePart.id === id ? { ...sparePart, ...rs } : sparePart
     );
     dispatch({ type: "UPDATE_SPARE_PARTS", payload: updatedSpareParts });
   };

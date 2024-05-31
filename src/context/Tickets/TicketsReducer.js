@@ -4,7 +4,8 @@ import {
   UPDATE_TICKET,
   CREATE_TICKET,
   DELETE_TICKET,
-  GET_DATA_CREATE_TICKET
+  GET_DATA_CREATE_TICKET,
+  FINISH_TICKET,
 } from "../types";
 export default (state, action) => {
   const { payload, type } = action;
@@ -39,7 +40,12 @@ export default (state, action) => {
       return {
         ...state,
         dataCreateTicket: payload,
-      }
+      };
+    case FINISH_TICKET:
+      return {
+        ...state,
+        tickets: payload,
+      };
     default:
       return state;
   }

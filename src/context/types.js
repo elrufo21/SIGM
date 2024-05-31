@@ -26,5 +26,10 @@ export const UPDATE_TICKET = "UPDATE_TICKET";
 export const CREATE_TICKET = "CREATE_TICKET";
 export const DELETE_TICKET = "DELETE_TICKET"
 export const GET_DATA_CREATE_TICKET = "GET_DATA_CREATE_TICKET"
+export const FINISH_TICKET = "FINISH_TICKET"
+/*Account */
+export const LOGGIN = "LOGGIN" 
+export const LOGOUT = "LOGOUT"
+export const SET_LOGGED = "SET_LOGGED"
 
-
+export const GET_ANALITICS = "GET_ANALITICS"

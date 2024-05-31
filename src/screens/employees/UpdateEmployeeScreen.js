@@ -1,25 +1,36 @@
 import { useContext, useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
-import SelectInput from "../../components/SelectImput";
 import EmployeesContext from "../../context/employees/EmployeesContext";
 import FormComponent from "../../components/FormComponent";
 
-const UpdateEmployeeScreen = ({navigation}) => {
-  const { selectedEmployee, updateEmployee,getProfile } = useContext(EmployeesContext);
-  const [updatedEmployee, setUpdatedEmployee] = useState(selectedEmployee);
-  const [selectedValue, setSelectedValue] = useState("Mecanico");
-  
+const UpdateEmployeeScreen = ({ navigation }) => {
+  const { selectedEmployee, updateEmployee, getProfile } =
+    useContext(EmployeesContext);
+  const [updatedEmployee, setUpdatedEmployee] = useState(
+    selectedEmployee || { employee: {} }
+  );
+  const [selectedValue, setSelectedValue] = useState(
+    selectedEmployee ? selectedEmployee.employee.rol : ""
+  );
+
   useEffect(() => {
-    setUpdatedEmployee(selectedEmployee);
-   
-  }, [selectedEmployee]);
-  
-  const handleUpdate = () => {
     if (selectedEmployee) {
-      setUpdatedEmployee({ ...updatedEmployee, rol: selectedValue });
-      updateEmployee(updatedEmployee.id, updatedEmployee);
+      setUpdatedEmployee(selectedEmployee.employee);
+      setSelectedValue(selectedEmployee.employee.rol);
+    }
+  }, [selectedEmployee]);
+
+  const handleUpdate = () => {
+    
+    if (selectedEmployee) {
+      const updatedData = {
+        ...updatedEmployee,
+        rol: selectedValue,
+      };
+       updateEmployee(updatedEmployee.id, updatedData);
       getProfile(updatedEmployee.id);
+      console.log(updatedData);
     }
   };
 
@@ -27,41 +38,49 @@ const UpdateEmployeeScreen = ({navigation}) => {
     {
       name: "names",
       label: "Nombres",
-      value: updatedEmployee.names,
+      value: updatedEmployee.names || "",
       type: "text",
       setValue: (text) =>
-        setUpdatedEmployee({ ...updatedEmployee, names: text }),
+        setUpdatedEmployee({
+          ...updatedEmployee,
+          names: text,
+        }),
     },
     {
       name: "surnames",
       label: "Apellidos",
-      value: updatedEmployee.surnames,
+      value: updatedEmployee.surnames || "",
       type: "text",
       setValue: (text) =>
-        setUpdatedEmployee({ ...updatedEmployee, surnames: text }),
+        setUpdatedEmployee({
+          ...updatedEmployee,
+          surnames: text,
+        }),
     },
     {
       name: "phone",
       label: "Telefono",
-      value: updatedEmployee.phone,
+      value: updatedEmployee.phone || "",
       type: "text",
       setValue: (text) =>
-        setUpdatedEmployee({ ...updatedEmployee, phone: text }),
+        setUpdatedEmployee({
+          ...updatedEmployee,
+          phone: text,
+        }),
     },
     {
       name: "rol",
       label: "Rol",
-      value: updatedEmployee.rol,
+      value: selectedValue,
       type: "select",
       options: [
-        { label: "Mecanico", value: "1" },
-        { label: "Practicante", value: "2" },
-        { label: "Limpieza", value: "3" },
-        { label: "Programador", value: "4" },
+        { label: "Mecanico", value: "Mecanico" },
+        { label: "Practicante", value: "Practicante" },
+        { label: "Limpieza", value: "Limpieza" },
+        { label: "Programador", value: "Programador" },
       ],
-      setValue: (text) => setUpdatedEmployee({ ...updatedEmployee, rol: text }),
-      valueSelectImput: selectedValue,
       setValueSelectInput: (text) => setSelectedValue(text),
+      valueSelectInput: selectedValue,
     },
   ];
 

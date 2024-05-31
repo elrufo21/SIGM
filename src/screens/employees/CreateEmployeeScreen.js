@@ -20,7 +20,7 @@ const CreateEmployeScreen = ({ navigation, route }) => {
     console.log(emp);
   
     createEmployee(emp); 
-  
+    setData({});
     navigation.navigate("Lista"); 
   };
 

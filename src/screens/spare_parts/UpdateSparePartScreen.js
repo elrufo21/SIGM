@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Keyboard, Text, View } from "react-native";
 import SparePartsContext from "../../context/SpareParts/SparePartsContext";
 import { useContext, useEffect, useState } from "react";
 import FormComponent from "../../components/FormComponent";
@@ -7,17 +7,28 @@ import { Button } from "react-native-paper";
 const UpdateSparePartScreen = () => {
   const { updateSparePart, sparePart } = useContext(SparePartsContext);
   const [selectedValue, setSelectedValue] = useState("aceites");
-  const [data, setData] = useState(sparePart);
+  const [data, setData] = useState(
+    sparePart || {
+      name: "",
+      stock: 0,
+      price: 0,
+      type: "aceites",
+      location: "",
+      description: "",
+    }
+  );
 
   useEffect(() => {
     if (sparePart) {
       setData(sparePart);
+      setSelectedValue(sparePart.type);
     }
   }, [sparePart]);
 
   const buttonHandleClick = () => {
-    updateSparePart(sparePart.id,data);
+    updateSparePart(sparePart.id, { ...data, type: selectedValue });
   };
+
   const fields = [
     {
       name: "name",
@@ -29,30 +40,42 @@ const UpdateSparePartScreen = () => {
     {
       name: "stock",
       label: "Stock",
-      value: data.stock,
-      type: "number",
-      setValue: (text) => setData({ ...data, stock: text }),
+      value: data.stock.toString(),
+      keyboardType: "numeric",
+      setValue: (text) => setData({ ...data, stock: parseInt(text, 10) }),
+    },
+    {
+      name: "price",
+      label: "Precio por unidad",
+      value: data.price.toString(),
+      keyboardType: "numeric",
+      setValue: (text) => setData({ ...data, price: parseFloat(text) }),
     },
     {
       name: "type",
       label: "Tipo",
-      value: data.type,
+      value: selectedValue,
       type: "select",
       options: [
         { label: "Aceites", value: "aceites" },
         { label: "Filtros", value: "filtros" },
-
         { label: "Frenos", value: "frenos" },
         { label: "Otros", value: "otros" },
       ],
-      valueSelectInput: selectedValue,
       setValueSelectInput: (text) => setSelectedValue(text),
     },
     {
+      name: "location",
+      label: "Ubicación",
+      value: data.location,
+      type: "text",
+      setValue: (text) => setData({ ...data, location: text }),
+    },
+    {
       name: "description",
-      label: "Descripcion",
+      label: "Descripción",
       value: data.description,
-      type: "description",
+      type: "text",
       setValue: (text) => setData({ ...data, description: text }),
       numberOfLines: 3,
       height: 100,
@@ -64,8 +87,7 @@ const UpdateSparePartScreen = () => {
     <View>
       <FormComponent fields={fields} />
       <Button mode="contained" onPress={buttonHandleClick}>
-        {" "}
-        Actualizar{" "}
+        Actualizar
       </Button>
     </View>
   );

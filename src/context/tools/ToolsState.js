@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import ToolsContext from "./ToolsContext";
 import { ToolsList } from "../../data/data";
 import ToolsReducer from "./ToolsReducer";
-import { getData } from "../../helpers/helpers";
+import { createData, getData, updateData } from "../../helpers/helpers";
 
 const ToolsState = (props) => {
   const initialState = {
@@ -23,17 +23,18 @@ const ToolsState = (props) => {
     });
   };
   const createTool = async (tool) => {
-    const newTools = [...state.tools, tool];
     const rs = await createData("https://sigm-api.onrender.com/api/tool", tool);
+    const newTools = [...state.tools, tool];
     dispatch({ type: "CREATE_TOOL", payload: newTools });
     console.log(rs);
   };
   const updateTool = async (id, updatedData) => {
     const url = "https://sigm-api.onrender.com/api/tool/" + id;
+
+    const rs = await updateData(url, updatedData);
     const updatedTools = state.tools.map((tool) =>
       tool.id === id ? { ...tool, ...updatedData } : tool
     );
-    const rs = await updateData(url, updatedData);
     dispatch({ type: "UPDATE_TOOL", payload: updatedTools });
     console.log(rs);
   };
@@ -47,7 +48,15 @@ const ToolsState = (props) => {
 
   return (
     <ToolsContext.Provider
-      value={{ tools: state.tools, tool: state.selectedTool, getTools,getTool,createTool,updateTool,deleteTool }}
+      value={{
+        tools: state.tools,
+        tool: state.selectedTool,
+        getTools,
+        getTool,
+        createTool,
+        updateTool,
+        deleteTool,
+      }}
     >
       {props.children}
     </ToolsContext.Provider>

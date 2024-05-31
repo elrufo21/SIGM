@@ -64,20 +64,18 @@ const EmployeesScreen = ({ navigation }) => {
   return (
     <ScrollView>
       <Card>
-        <Card.Title title="Employees" />
+        <Card.Title title="Employeess" />
         <Card.Content>
-          <View style={{ height: Dimensions.get("window").height / 2.5 }}>
-            <CustomDataTable
-              titles={titles}
-              list={modifiedEmployees}
-              actions={actions}
-              page={page}
-              itemsPerPage={itemsPerPage}
-              numberOfItemsPerPageList={numberOfItemsPerPageList}
-              onPageChange={(page) => setPage(page)}
-              onItemsPerPageChange={onItemsPerPageChange}
-            />
-          </View>
+          <CustomDataTable
+            titles={titles}
+            list={modifiedEmployees}
+            actions={actions}
+            page={page}
+            itemsPerPage={itemsPerPage}
+            numberOfItemsPerPageList={numberOfItemsPerPageList}
+            onPageChange={(page) => setPage(page)}
+            onItemsPerPageChange={onItemsPerPageChange}
+          />
         </Card.Content>
       </Card>
       <Text>Hola</Text>

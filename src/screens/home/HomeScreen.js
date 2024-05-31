@@ -1,4 +1,4 @@
-import { View, Dimensions, ScrollView } from "react-native";
+import { View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import {
   LineChart,
   BarChart,
@@ -7,7 +7,7 @@ import {
   ContributionGraph,
   StackedBarChart,
 } from "react-native-chart-kit";
-import { Button, Card, Text } from "react-native-paper";
+import { Avatar, Button, Card, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext, useEffect, useState } from "react";
 import HomeContext from "../../context/home/HomeContext";
@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
     console.log(data);
   }, [analitic]);
 
-  if (analitic.length <= 0) {
+  if (!analitic || analitic.length <= 0) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Cargando...</Text>
@@ -52,8 +52,8 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return (
-    <ScrollView>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <ScrollView style={{ backgroundColor: "#0C090D" }}>
+      <View style={{ flex: 5, justifyContent: "center", alignItems: "center" }}>
         <View
           style={{
             flexDirection: "row",
@@ -62,22 +62,68 @@ const HomeScreen = ({ navigation }) => {
             marginTop: 20,
           }}
         >
-          <Card style={{ flex: 2, marginRight: 10 }}>
-            <Card.Title title="Repuestos mas usados" />
+          <Card
+            style={{
+              flex: 3,
+              marginRight: 10,
+              backgroundColor: "#8ED081",
+              elevation: 5,
+              borderRadius: 10,
+            }}
+          >
+            <Card.Title title="Repuestos mas usados" style={{ fontSize: 18 }} />
             <Card.Content>
               {analitic.mostUsedSpareParts &&
                 analitic.mostUsedSpareParts.map((part, index) => (
-                  <Text key={index}>
+                  <Text key={index} style={{ fontSize: 16, color: "white" }}>
                     {part.name} {part.total_used}
                   </Text>
                 ))}
             </Card.Content>
           </Card>
 
-          <Card style={{ flex: 1, marginLeft: 10 }}>
-            <Card.Title title="Ganancias" />
+          <Card
+            style={{
+              flex: 2,
+              marginLeft: 10,
+              backgroundColor: "#05204A", // Cambia el fondo a morado
+              elevation: 5, // Agrega sombra
+              borderRadius: 10, // Redondea los bordes
+            }}
+          >
+            <Card.Title
+              left={() => (
+                <Avatar.Icon
+                  icon="cash"
+                  style={{ backgroundColor: "#8ED081" }}
+                />
+              )}
+            />
+
             <Card.Content>
-              <Text style={{ fontSize: 12, color: "green" }}>
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: "white",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  S/. {costLastMonth}
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: "white",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  S/. {costPreviousMonth}
+                </Text>
+              </View>
+              {/* <Text style={{ fontSize: 12, color: "green" }}>
                 Actual: S/.{costLastMonth}
               </Text>
               <Text style={{ fontSize: 12, color: "#f44336" }}>
@@ -88,7 +134,15 @@ const HomeScreen = ({ navigation }) => {
                   100}
                 %
               </Text>
+              */}
             </Card.Content>
+            <Card.Actions>
+              <Button icon="chevron-up" mode="contained" >
+                {((costLastMonth - costPreviousMonth) / costPreviousMonth) *
+                  100}
+                %
+              </Button>
+            </Card.Actions>
           </Card>
         </View>
       </View>
@@ -149,25 +203,38 @@ const HomeScreen = ({ navigation }) => {
           </Card>
         </View>
       </View>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 20,
+          marginBottom: 20,
+        }}
+      >
         <View
           style={{ marginTop: 20, width: Dimensions.get("window").width - 50 }}
         >
-          <Card>
-            <Card.Title title="Ultimos tickets" />
-            <Card.Content>
-              {analitic.lastTickets.map((ticket) => (
-                <Card key={ticket.id}>
-                  <Card.Title title={`Ticket: ${ticket.id}`} />
-                  <Card.Content>
-                    <Text>Fecha de Creación: {ticket.registration_date}</Text>
-                    <Text>Estado: {ticket.status}</Text>
-                    <Text>Costo: {ticket.cost}</Text>
-                  </Card.Content>
-                </Card>
-              ))}
-            </Card.Content>
-          </Card>
+          {labels.length > 0 && (
+            <Card>
+              <Card.Title title="Ultimos tickets" />
+              <Card.Content>
+                {analitic.lastTickets.map((ticket) => (
+                  <Card
+                    key={ticket.id}
+                    style={{ marginTop: 10, marginBottom: 10 }}
+                  >
+                    <Card.Title title={`Ticket: ${ticket.id}`} />
+                    <Card.Content>
+                      <Text>Fecha de Creación: {ticket.registration_date}</Text>
+                      <Text>Estado: {ticket.status}</Text>
+                      <Text>Costo: {ticket.cost}</Text>
+                    </Card.Content>
+                  </Card>
+                ))}
+              </Card.Content>
+            </Card>
+          )}
         </View>
       </View>
     </ScrollView>

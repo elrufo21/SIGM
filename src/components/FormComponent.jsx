@@ -1,11 +1,11 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import SelectInput from "./SelectImput"; // Corregir el nombre del archivo de importación
 
 const FormComponent = ({ fields, buttonSelect }) => {
   return (
-    <View>
+    <View style={styles.container}>
       {fields.map(
         ({
           label,
@@ -37,30 +37,40 @@ const FormComponent = ({ fields, buttonSelect }) => {
                 </Button>
               </View>
             ) : (
-              <SelectInput
-                options={options}
-                state={valueSelectInput}
-                setState={setValueSelectInput}
-              />
+              <View style={{ marginBottom: 10, marginTop: 10 }}>
+                <SelectInput
+                  options={options}
+                  state={valueSelectInput}
+                  setState={setValueSelectInput}
+                />
+              </View>
             )
           ) : type === "description" ? (
-            <TextInput
-              label={label}
-              value={value}
-              onChangeText={setValue}
-              key={name}
-              multiline={true}
-              numberOfLines={4} // Ajusta el número de líneas visibles
-              style={{ height: 120, fontSize: 16 }} // Personaliza el tamaño del TextInput
-            />
+            <View style={{ marginBottom: 10, marginTop: 10 }}>
+              <TextInput
+                label={label}
+                value={value}
+                onChangeText={setValue}
+                key={name}
+                multiline={true}
+                numberOfLines={4} // Ajusta el número de líneas visibles
+                style={{ height: 120, fontSize: 13,borderRadius: 20 }} // Personaliza el tamaño del TextInput
+                mode="outlined"
+              />
+            </View>
           ) : (
-            <TextInput
-              label={label}
-              value={value}
-              onChangeText={setValue}
-              key={name}
-              keyboardType={type}
-            />
+            <View style={{ marginBottom: 10, marginTop: 10 }}>
+              <TextInput
+                label={label}
+                mode="outlined"
+                value={value}
+                onChangeText={setValue}
+                key={name}
+                keyboardType={type}
+                style={{ fontSize: 15,borderRadius: 20 }}
+                
+              />
+            </View>
           );
         }
       )}
@@ -82,3 +92,4 @@ const styles = StyleSheet.create({
 });
 
 export default FormComponent;
+

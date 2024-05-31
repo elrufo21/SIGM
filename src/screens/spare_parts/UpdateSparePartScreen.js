@@ -1,8 +1,8 @@
-import { Keyboard, Text, View } from "react-native";
+import { Dimensions, Keyboard, Text, View, StyleSheet } from "react-native";
 import SparePartsContext from "../../context/SpareParts/SparePartsContext";
 import { useContext, useEffect, useState } from "react";
 import FormComponent from "../../components/FormComponent";
-import { Button } from "react-native-paper";
+import { Button, Card, Title } from "react-native-paper";
 
 const UpdateSparePartScreen = () => {
   const { updateSparePart, sparePart } = useContext(SparePartsContext);
@@ -75,7 +75,7 @@ const UpdateSparePartScreen = () => {
       name: "description",
       label: "Descripción",
       value: data.description,
-      type: "text",
+      type: "description",
       setValue: (text) => setData({ ...data, description: text }),
       numberOfLines: 3,
       height: 100,
@@ -84,13 +84,31 @@ const UpdateSparePartScreen = () => {
   ];
 
   return (
-    <View>
-      <FormComponent fields={fields} />
-      <Button mode="contained" onPress={buttonHandleClick}>
-        Actualizar
-      </Button>
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Card.Title title="Actualizar Repuesto" />
+        <Card.Content>
+          <FormComponent fields={fields} />
+        </Card.Content>
+        <Card.Actions>
+          <Button mode="contained" onPress={buttonHandleClick}>
+            Actualizar
+          </Button>
+        </Card.Actions>
+      </Card>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  card: {
+    width: "100%",
+    maxWidth: 500,
+  },
+});
 export default UpdateSparePartScreen;

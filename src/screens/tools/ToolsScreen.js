@@ -4,7 +4,7 @@ import ToolsContext from "../../context/tools/ToolsContext";
 import CustomDataTable from "../../components/CustomDataTable";
 
 const ToolsScreen = ({ navigation }) => {
-  const { getTools, tools,getTool } = useContext(ToolsContext);
+  const { getTools, tools, getTool } = useContext(ToolsContext);
   useEffect(() => {
     getTools();
   }, []);

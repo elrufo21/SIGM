@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, ActivityIndicator } from "react-native";
-import { Button } from "react-native-paper";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { Button, Card } from "react-native-paper";
 import ToolsContext from "../../context/tools/ToolsContext";
 import FormComponent from "../../components/FormComponent";
 import { useNavigation } from "@react-navigation/native";
@@ -84,7 +84,7 @@ const UpdateToolsScreen = () => {
       price: parseFloat(updatedTool.price),
     };
     console.log(newUpdatedTool);
-    updateTool(tool.id,newUpdatedTool);
+    updateTool(tool.id, newUpdatedTool);
     navigation.navigate("Lista");
   };
 
@@ -97,13 +97,30 @@ const UpdateToolsScreen = () => {
   }
 
   return (
-    <View>
-      <FormComponent fields={fields} />
-      <Button mode="contained" onPress={handleUpdate}>
-        Actualizar Herramienta
-      </Button>
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Card.Content>
+          <FormComponent fields={fields} />
+        </Card.Content>
+        <Card.Actions>
+          <Button mode="contained" onPress={handleUpdate}>
+            Actualizar
+          </Button>
+        </Card.Actions>
+      </Card>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  card: {
+    width: "100%",
+    maxWidth: 500,
+  },
+});
 export default UpdateToolsScreen;

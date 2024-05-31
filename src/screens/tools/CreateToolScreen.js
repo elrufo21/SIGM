@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { Text } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import ToolsContext from "../../context/tools/ToolsContext";
 import FormComponent from "../../components/FormComponent";
-import { Button } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 
 const CreateToolScreen = ({ navigation }) => {
   const { createTool } = useContext(ToolsContext);
@@ -68,19 +68,38 @@ const CreateToolScreen = ({ navigation }) => {
   ];
 
   const handleCreate = () => {
-    
-    const newData = { ...data, price: parseFloat(data.price),status:"d"};
-   console.log(newData)
-   createTool(newData);
+    const newData = { ...data, price: parseFloat(data.price), status: "d" };
+    console.log(newData);
+    createTool(newData);
 
     navigation.navigate("Lista");
   };
   return (
-    <>
-      <FormComponent fields={fields}  />
-      <Button mode="contained" onPress={() => handleCreate(data)} />
-    </>
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Card.Title title="Crear Repuesto" />
+        <Card.Content>
+          <FormComponent fields={fields} buttonSelect={false} />
+        </Card.Content>
+        <Card.Actions>
+          <Button mode="contained" onPress={handleCreate}>
+            Crear
+          </Button>
+        </Card.Actions>
+      </Card>
+    </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  card: {
+    width: "100%",
+    maxWidth: 500,
+  },
+});
 export default CreateToolScreen;

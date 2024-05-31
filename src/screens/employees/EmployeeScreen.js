@@ -23,7 +23,10 @@ const EmployeeScreen = () => {
           <Card.Content>
             {selectedEmployee.tickets.map((ticket) => (
               <>
-                <Card mode="outlined" style={{ marginTop: 10, marginBottom: 10 }}>
+                <Card
+                  mode="outlined"
+                  style={{ marginTop: 10, marginBottom: 10 }}
+                >
                   <Card.Title
                     title={`Ticket: ${ticket.id}`}
                     left={LeftContentT}

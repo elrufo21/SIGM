@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { Button, TextInput } from "react-native-paper";
+import { Text, View, StyleSheet } from "react-native";
+import { Button, Card, TextInput } from "react-native-paper";
 import EmployeesContext from "../../context/employees/EmployeesContext";
 import FormComponent from "../../components/FormComponent";
 
@@ -22,13 +22,12 @@ const UpdateEmployeeScreen = ({ navigation }) => {
   }, [selectedEmployee]);
 
   const handleUpdate = () => {
-    
     if (selectedEmployee) {
       const updatedData = {
         ...updatedEmployee,
         rol: selectedValue,
       };
-       updateEmployee(updatedEmployee.id, updatedData);
+      updateEmployee(updatedEmployee.id, updatedData);
       getProfile(updatedEmployee.id);
       console.log(updatedData);
     }
@@ -85,19 +84,35 @@ const UpdateEmployeeScreen = ({ navigation }) => {
   ];
 
   return (
-    <View>
+    <View style={styles.container}>
       {selectedEmployee ? (
-        <>
-          <FormComponent fields={fields} />
-          <Button mode="contained" onPress={handleUpdate}>
-            Actualizar
-          </Button>
-        </>
+        <Card style={styles.card}>
+          <Card.Title title="Actualizar Empleado" />
+          <Card.Content>
+            <FormComponent fields={fields} />
+          </Card.Content>
+          <Card.Actions>
+            <Button mode="contained" onPress={handleUpdate}>
+              Actualizar
+            </Button>
+          </Card.Actions>
+        </Card>
       ) : (
         <Text>No hay un usuario seleccionado</Text>
       )}
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  card: {
+    width: "100%",
+    maxWidth: 500,
+  },
+});
 export default UpdateEmployeeScreen;

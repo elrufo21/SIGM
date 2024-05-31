@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { View } from "react-native";
-import { Button } from "react-native-paper";
+import { View, StyleSheet } from "react-native";
+import { Button, Card } from "react-native-paper";
 import FormComponent from "../../components/FormComponent";
 import EmployeesContext from "../../context/employees/EmployeesContext";
 const CreateEmployeScreen = ({ navigation, route }) => {
@@ -15,13 +15,18 @@ const CreateEmployeScreen = ({ navigation, route }) => {
   /* */
 
   const buttonHandleClick = async () => {
-    const emp = {...data, rol: selectedValue, status: "1", id: employees.length + 1};
-  
+    const emp = {
+      ...data,
+      rol: selectedValue,
+      status: "1",
+      id: employees.length + 1,
+    };
+
     console.log(emp);
-  
-    createEmployee(emp); 
+
+    createEmployee(emp);
     setData({});
-    navigation.navigate("Lista"); 
+    navigation.navigate("Lista");
   };
 
   const fields = [
@@ -60,15 +65,34 @@ const CreateEmployeScreen = ({ navigation, route }) => {
       ],
       valueSelectInput: selectedValue,
       setValueSelectInput: (text) => setSelectedValue(text),
-    },  
+    },
   ];
   return (
-    <View>
-      <FormComponent fields={fields} />
-      <Button mode="contained" onPress={buttonHandleClick}>
-        Guardar
-      </Button>
+    <View style={styles.container}>
+      <Card style={styles.card}>
+        <Card.Title title="Crear Empleado" />
+        <Card.Content>
+          <FormComponent fields={fields} />
+        </Card.Content>
+        <Card.Actions>
+          <Button mode="contained" onPress={buttonHandleClick}>
+            Guardar
+          </Button>
+        </Card.Actions>
+      </Card>
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  card: {
+    width: "100%",
+    maxWidth: 500,
+  },
+});
 export default CreateEmployeScreen;

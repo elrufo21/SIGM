@@ -132,11 +132,10 @@ const CreateTicket = () => {
       })),
     };
 
-    // Agrega el estado 'A' (activo)
     const dataToSend = { ...parsedTicketData, status: "A" };
 
     console.log(dataToSend);
-    createTicket(dataToSend);
+    //createTicket(dataToSend);
   };
 
   if (loading) {

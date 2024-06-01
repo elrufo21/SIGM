@@ -76,14 +76,13 @@ const TicketsScreen = ({ navigation }) => {
           mode="outlined"
           label="YYY/MM/DD"
           onChangeText={(text) => handleFilter(text, "date")}
-          style={{ flex: 2, marginRight: 5,fontSize:12 }}
-
+          style={{ flex: 2, marginRight: 5, fontSize: 12 }}
         />
         <TextInput
           mode="outlined"
           label="Ticket"
           onChangeText={(text) => handleFilter(text, "ticket")}
-          style={{ flex: 1, marginRight: 5,fontSize:12 }}
+          style={{ flex: 1, marginRight: 5, fontSize: 12 }}
         />
         <Picker
           selectedValue={selectdeStatus}

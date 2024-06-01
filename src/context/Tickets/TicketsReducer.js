@@ -46,6 +46,7 @@ export default (state, action) => {
         ...state,
         tickets: payload,
       };
+    
     default:
       return state;
   }

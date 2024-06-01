@@ -33,3 +33,4 @@ export const LOGOUT = "LOGOUT"
 export const SET_LOGGED = "SET_LOGGED"
 
 export const GET_ANALITICS = "GET_ANALITICS"
+export const TICKET_BY_EMPLOYEE = "TICKET_BY_EMPLOYEE"

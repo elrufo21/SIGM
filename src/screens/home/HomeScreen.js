@@ -81,7 +81,71 @@ const HomeScreen = ({ navigation }) => {
                 ))}
             </Card.Content>
           </Card>
+          <View>
+            <View
+              style={{
+                width: 150,
+                backgroundColor: "#05204A",
+                flexDirection: "row",
+                flexWrap: "wrap",
+                borderRadius: 20,
+                shadowColor: "white",
+                shadowOpacity: 0.3,
+                shadowRadius: 0,
+                elevation: 3,
+                height: 180,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <View
+                style={{
+                  width: 130,
+                  height: 90,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Avatar.Icon
+                  icon="cash"
+                  style={{ backgroundColor: "#8ED081" }}
+                />
 
+                <View
+                  style={{
+                    backgroundColor: "#8ED081",
+                    borderRadius: 10,
+                    width: 45,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ color: "white", fontSize: 12 }}>
+                    {((costLastMonth - costPreviousMonth) / costPreviousMonth) *
+                      100}
+                    %
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  width: 130,
+                  height: 80,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 12 }}>
+                  S/.{costLastMonth}
+                </Text>
+                <Text style={{ color: "white", fontSize: 12 }}>
+                  S/.{costPreviousMonth}
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          {/*
           <Card
             style={{
               flex: 2,
@@ -134,7 +198,7 @@ const HomeScreen = ({ navigation }) => {
                   100}
                 %
               </Text>
-              */}
+              
             </Card.Content>
             <Card.Actions>
               <Button icon="chevron-up" mode="contained" >
@@ -143,7 +207,7 @@ const HomeScreen = ({ navigation }) => {
                 %
               </Button>
             </Card.Actions>
-          </Card>
+          </Card>*/}
         </View>
       </View>
       <View

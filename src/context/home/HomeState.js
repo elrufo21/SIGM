@@ -19,6 +19,8 @@ const HomeState = (props) => {
     const list = await getData(
       `https://sigm-api.onrender.com/api/employeeTickets/${id}`
     );
+    console.log("Empleado")
+    console.log(list)
     dispatch({ type: "TICKET_BY_EMPLOYEE", payload: list });
   };
 

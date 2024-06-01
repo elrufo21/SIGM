@@ -62,6 +62,13 @@ const TicketsScreen = ({ navigation }) => {
         break;
     }
   };
+  if (
+    tickets === undefined ||
+    tickets === null ||
+    !tickets ||
+    tickets.length === 0
+  )
+    return <Text>No hay tickets</Text>;
   return (
     <ScrollView contentContainerStyle={{ alignItems: "center", flexGrow: 1 }}>
       <View

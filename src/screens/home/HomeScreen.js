@@ -62,25 +62,7 @@ const HomeScreen = ({ navigation }) => {
             marginTop: 20,
           }}
         >
-          <Card
-            style={{
-              flex: 3,
-              marginRight: 10,
-              backgroundColor: "#8ED081",
-              elevation: 5,
-              borderRadius: 10,
-            }}
-          >
-            <Card.Title title="Repuestos mas usados" style={{ fontSize: 18 }} />
-            <Card.Content>
-              {analitic.mostUsedSpareParts &&
-                analitic.mostUsedSpareParts.map((part, index) => (
-                  <Text key={index} style={{ fontSize: 16, color: "white" }}>
-                    {part.name} {part.total_used}
-                  </Text>
-                ))}
-            </Card.Content>
-          </Card>
+          
           <View>
             <View
               style={{
@@ -267,6 +249,69 @@ const HomeScreen = ({ navigation }) => {
           </Card>
         </View>
       </View>
+      <Card
+  style={{
+    flex: 3,
+    marginRight: 10,
+    backgroundColor: "#8ED081",
+    elevation: 5,
+    borderRadius: 10,
+  }}
+>
+  <Card.Title
+    title="Repuestos más usados"
+    style={{
+      fontSize: 20,
+      color: "white",
+      paddingVertical: 15,
+      paddingHorizontal: 20,
+      borderBottomWidth: 2,
+      borderBottomColor: "white",
+      fontWeight: "bold",
+    }}
+  />
+  <Card.Content>
+    {analitic.mostUsedSpareParts &&
+      analitic.mostUsedSpareParts.map((part, index) => (
+        <View
+          key={index}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingVertical: 12,
+            paddingHorizontal: 20,
+            backgroundColor: index % 2 === 0 ? "#6CAB62" : "#8ED081",
+            borderRadius: 5,
+            marginVertical: 5,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              color: "white",
+              flex: 1,
+              marginRight: 10,
+              fontWeight: "bold",
+            }}
+          >
+            {part.name}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              color: "white",
+              flex: 1,
+              marginLeft: 10,
+              textAlign: "right",
+            }}
+          >
+            {part.total_used}
+          </Text>
+        </View>
+      ))}
+  </Card.Content>
+</Card>
       <View
         style={{
           flex: 1,

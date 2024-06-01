@@ -1,4 +1,4 @@
-import { GET_ANALITICS } from "../../context/types";
+import { GET_ANALITICS,TICKET_BY_EMPLOYEE } from "../../context/types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +6,11 @@ export default (state, action) => {
       return {
         ...state,
         analitic: action.payload,
+      };
+    case TICKET_BY_EMPLOYEE:
+      return {
+        ...state,
+        ticketsByEmployee: action.payload,
       };
     default:
       return state;

@@ -10,7 +10,10 @@ const SparePartScreen = () => {
     <View style={styles.container}>
       {sparePart ? (
         <Card style={styles.card}>
-          <Card.Cover source={{ uri: sparePart.imageUrl }} style={styles.cardCover} />
+          <Card.Cover
+            source={{ uri: sparePart.imageUrl }}
+            style={styles.cardCover}
+          />
           <Card.Content>
             <Title style={styles.title}>{sparePart.name}</Title>
             <Paragraph style={styles.subtitle}>{sparePart.type}</Paragraph>
@@ -25,14 +28,20 @@ const SparePartScreen = () => {
               </View>
               <View style={styles.infoItem}>
                 <Text style={styles.infoLabel}>Precio:</Text>
-                <Text style={[styles.infoValue,styles.green]}>S/.{sparePart.price} /u</Text>
+                <Text style={[styles.infoValue, styles.green]}>
+                  S/.{sparePart.price} /u
+                </Text>
               </View>
             </View>
-            <Paragraph style={styles.description}>{sparePart.description}</Paragraph>
+            <Paragraph style={styles.description}>
+              {sparePart.description}
+            </Paragraph>
           </Card.Content>
         </Card>
       ) : (
-        <Text style={styles.noSparePartText}>No hay un SparePart seleccionado</Text>
+        <Text style={styles.noSparePartText}>
+          No hay un SparePart seleccionado
+        </Text>
       )}
     </View>
   );

@@ -36,12 +36,13 @@ const TicketsState = (props) => {
     console.log(ticket);
   };
   const createTicket = async (ticket) => {
-    const newTickets = [...state.tickets, ticket];
+    
     const rs = await createData(
       "https://sigm-api.onrender.com/api/ticket",
       ticket
     );
-    dispatch({ type: "CREATE_TICKET", payload: newTickets });
+    const newTickets = [...state.tickets, rs];
+    dispatch({ type: "CREATE_TICKET", payload: newTickets});
     console.log(rs);
   };
   const finishTicket = async (id) => {
@@ -71,8 +72,8 @@ const TicketsState = (props) => {
       "https://sigm-api.onrender.com/api/ticket/" + id
     );
     dispatch({ type: "GET_TICKET", payload: ticket });
-    console.log(rs)
-    console.log(ticket)
+    console.log(rs);
+    console.log(ticket);
   };
 
   return (

@@ -326,7 +326,7 @@ const HomeScreen = ({ navigation }) => {
         >
           {labels.length > 0 && (
             <Card>
-              <Card.Title title="Ultimos tickets" />
+              <Card.Title title="Ultimos tickets finalizados" />
               <Card.Content>
                 {analitic.lastTickets.map((ticket) => (
                   <Card

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { StyleSheet, ScrollView,View } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 import TicketsContext from "../../context/Tickets/TicketsContext";
 import {
   Button,
@@ -46,9 +46,7 @@ const TicketScreen = ({ navigation }) => {
           <Title>{ticket.description}</Title>
           <Paragraph>
             Estado:{" "}
-            <Text
-              
-            >
+            <Text>
               {ticket.status === "F"
                 ? "Finalizado"
                 : ticket.status === "A"
@@ -89,7 +87,7 @@ const TicketScreen = ({ navigation }) => {
           )}
         </Card.Content>
         <Card.Actions>
-          {ticket.status !== "D" && (
+          {ticket.status == "A" && (
             <Button
               mode="contained"
               style={styles.button}
@@ -98,7 +96,7 @@ const TicketScreen = ({ navigation }) => {
               Finalizar
             </Button>
           )}
-          {ticket.status !== "D" && (
+          {ticket.status == "A" && (
             <Button
               mode="contained"
               style={styles.button}
@@ -107,9 +105,15 @@ const TicketScreen = ({ navigation }) => {
               Actualizar
             </Button>
           )}
-          <Button mode="contained" style={styles.button} onPress={handleDelete}>
-            Eliminar
-          </Button>
+          {ticket.status != "D" && (
+            <Button
+              mode="contained"
+              style={styles.button}
+              onPress={handleDelete}
+            >
+              Eliminar
+            </Button>
+          )}
         </Card.Actions>
       </Card>
     </ScrollView>
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   statusChip: {
-    marginVertical: 8
+    marginVertical: 8,
   },
   finishedChip: {
     backgroundColor: "#05FF00",

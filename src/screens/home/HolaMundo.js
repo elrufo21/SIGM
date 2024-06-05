@@ -1,7 +1,7 @@
-import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { Button, Image, View, StyleSheet, Alert } from "react-native";
+import axios from 'axios';
 
 const HolaMundo = () => {
   const [image, setImage] = useState(null);
@@ -28,26 +28,23 @@ const HolaMundo = () => {
       const fileUri = result.assets[0].uri;
       setImage(fileUri);
 
-      // Directory path for saving the image
-      const projectDir = FileSystem.documentDirectory + 'src/images/';
-      const fileName = fileUri.split('/').pop();
-      const destinationPath = `${projectDir}${fileName}`;
-      
-      try {
-        // Ensure the directory exists
-        const dirInfo = await FileSystem.getInfoAsync(projectDir);
-        if (!dirInfo.exists) {
-          await FileSystem.makeDirectoryAsync(projectDir, { intermediates: true });
-        }
+      // Upload the image to the server
+      const formData = new FormData();
+      formData.append('image', {
+        uri: fileUri,
+        name: fileUri.split('/').pop(),
+        type: 'image/jpeg', // or appropriate type
+      });
 
-        // Copy the file to the destination path
-        await FileSystem.copyAsync({
-          from: fileUri,
-          to: destinationPath,
+      try {
+        const response = await axios.post('http://tu-servidor-en-la-nube/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         });
-        console.log("Archivo guardado en:", destinationPath);
+        console.log("Response from server:", response.data);
       } catch (error) {
-        console.error("Error al copiar el archivo:", error);
+        console.error("Error uploading the file:", error);
       }
     }
   };
@@ -74,4 +71,3 @@ const styles = StyleSheet.create({
 });
 
 export default HolaMundo;
-

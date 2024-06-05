@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import ToolsContext from "./ToolsContext";
 import { ToolsList } from "../../data/data";
 import ToolsReducer from "./ToolsReducer";
-import { createData, getData, updateData } from "../../helpers/helpers";
+import { createData, deleteData, getData, updateData } from "../../helpers/helpers";
 
 const ToolsState = (props) => {
   const initialState = {
@@ -24,7 +24,7 @@ const ToolsState = (props) => {
   };
   const createTool = async (tool) => {
     const rs = await createData("https://sigm-api.onrender.com/api/tool", tool);
-    const newTools = [...state.tools, tool];
+    const newTools = [...state.tools, rs];
     dispatch({ type: "CREATE_TOOL", payload: newTools });
     console.log(rs);
   };
@@ -39,7 +39,7 @@ const ToolsState = (props) => {
     console.log(rs);
   };
   const deleteTool = async (id) => {
-    const url = "https://sigm-api.onrender.com/api/tool/" + id;
+    const url = "https://sigm-api.onrender.com/api/deleteTool/" + id;
     const newTools = state.tools.filter((tool) => tool.id !== id);
     const rs = await deleteData(url);
     dispatch({ type: "DELETE_TOOL", payload: newTools });

@@ -1,114 +1,191 @@
-import { Dimensions, Keyboard, Text, View, StyleSheet } from "react-native";
-import SparePartsContext from "../../context/SpareParts/SparePartsContext";
-import { useContext, useEffect, useState } from "react";
+import { Text, StyleSheet, View, Dimensions, Alert } from "react-native";
 import FormComponent from "../../components/FormComponent";
-import { Button, Card, Title } from "react-native-paper";
+import { useContext, useEffect, useState } from "react";
+import SparePartsContext from "../../context/SpareParts/SparePartsContext";
+import {
+  Button,
+  Card,
+  IconButton,
+  MD3Colors,
+  Modal,
+  TextInput,
+} from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 
-const UpdateSparePartScreen = () => {
-  const { updateSparePart, sparePart } = useContext(SparePartsContext);
-  const [selectedValue, setSelectedValue] = useState("aceites");
-  const [data, setData] = useState(
-    sparePart || {
-      name: "",
-      stock: 0,
-      price: 0,
-      type: "aceites",
-      location: "",
-      description: "",
-    }
-  );
-
+const UpdateSparePart = ({ visible, hideModal, handleCreate, sparePart }) => {
+  const [data, setData] = useState({
+    name: "",
+    location: "",
+    price: "",
+    type: "",
+    description: "",
+    stock: "",
+  });
   useEffect(() => {
-    if (sparePart) {
-      setData(sparePart);
-      setSelectedValue(sparePart.type);
+    if (sparePart !== null) {
+      setData({
+        name: sparePart.name || "",
+        location: sparePart.location || "",
+        price: sparePart.price ? sparePart.price.toString() : "",
+        type: sparePart.type || "",
+        description: sparePart.description || "",
+        stock: sparePart.stock ? sparePart.stock.toString() : "",
+      });
     }
   }, [sparePart]);
 
-  const buttonHandleClick = () => {
-    updateSparePart(sparePart.id, { ...data, type: selectedValue });
+  const handleClick = () => {
+    const newData = data;
+    newData.price = parseInt(data.price);
+    Alert.alert(
+      "Alerta",
+      "¿Estás seguro de crear repuesto?",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "Si",
+          onPress: () => {
+            handleCreate(newData);
+            setData({
+              name: "",
+              location: "",
+              price: "",
+              type: "",
+              description: "",
+              stock: "",
+            });
+            console.log(newData);
+            hideModal();
+          },
+          style: "default",
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
-  const fields = [
-    {
-      name: "name",
-      label: "Nombre",
-      value: data.name,
-      type: "text",
-      setValue: (text) => setData({ ...data, name: text }),
-    },
-    {
-      name: "stock",
-      label: "Stock",
-      value: data.stock.toString(),
-      keyboardType: "numeric",
-      setValue: (text) => setData({ ...data, stock: parseInt(text, 10) }),
-    },
-    {
-      name: "price",
-      label: "Precio por unidad",
-      value: data.price.toString(),
-      keyboardType: "numeric",
-      setValue: (text) => setData({ ...data, price: parseFloat(text) }),
-    },
-    {
-      name: "type",
-      label: "Tipo",
-      value: selectedValue,
-      type: "select",
-      options: [
-        { label: "Aceites", value: "aceites" },
-        { label: "Filtros", value: "filtros" },
-        { label: "Frenos", value: "frenos" },
-        { label: "Otros", value: "otros" },
-      ],
-      setValueSelectInput: (text) => setSelectedValue(text),
-    },
-    {
-      name: "location",
-      label: "Ubicación",
-      value: data.location,
-      type: "text",
-      setValue: (text) => setData({ ...data, location: text }),
-    },
-    {
-      name: "description",
-      label: "Descripción",
-      value: data.description,
-      type: "description",
-      setValue: (text) => setData({ ...data, description: text }),
-      numberOfLines: 3,
-      height: 100,
-      fontSize: 15,
-    },
-  ];
-
+  const containerStyle = {
+    backgroundColor: "white",
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  };
   return (
-    <View style={styles.container}>
-      <Card style={styles.card}>
-        <Card.Title title="Actualizar Repuesto" />
+    <Modal
+      visible={visible}
+      onDismiss={hideModal}
+      contentContainerStyle={containerStyle}
+    >
+      <View style={{ width: Dimensions.get("window").width - 100 }}>
+        <Card.Title
+          title="Registrar nuevo repuesto"
+          subtitle="Complete todos los campos"
+          left={(props) => (
+            <IconButton
+              icon="toolbox"
+              iconColor={MD3Colors.primary50}
+              size={24}
+              onPress={() => console.log("Pressed")}
+            />
+          )}
+        />
         <Card.Content>
-          <FormComponent fields={fields} />
+          <TextInput
+            label="Nombre"
+            value={data.name}
+            onChangeText={(text) => setData({ ...data, name: text })}
+            mode="outlined"
+          />
+          <TextInput
+            label="Ubicacion"
+            value={data.location}
+            onChangeText={(text) => setData({ ...data, location: text })}
+            mode="outlined"
+          />
+          <Picker
+            selectedValue={data.type}
+            onValueChange={(value) => setData({ ...data, type: value })}
+          >
+            <Picker.Item label="Filtros" value="Filtros" />
+            <Picker.Item
+              label="Aceites y Lubricantes"
+              value="Aceites y Lubricantes"
+            />
+            <Picker.Item label="Frenos" value="Frenos" />
+            <Picker.Item
+              label="Sistema de Suspensión"
+              value="Sistema de Suspensión "
+            />
+            <Picker.Item label="Sistema de Escape" value="Sistema de Escape" />
+            <Picker.Item
+              label="Sistema de Enfriamiento"
+              value="Sistema de Enfriamiento"
+            />
+            <Picker.Item label="Sistema Eléctrico" value="Sistema Eléctrico" />
+            <Picker.Item
+              label="Componentes del Motor"
+              value="Componentes del Motor"
+            />
+            <Picker.Item
+              label="Transmisión y Embrague"
+              value="Transmisión y Embrague"
+            />
+            <Picker.Item
+              label="Carrocería y Accesorios"
+              value="Carrocería y Accesorios"
+            />
+            <Picker.Item
+              label="Neumáticos y Ruedas"
+              value="Neumáticos y Ruedas"
+            />
+          </Picker>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <TextInput
+              label="Precio"
+              mode="outlined"
+              value={data.price}
+              onChangeText={(text) => setData({ ...data, price: text })}
+              keyboardType="numeric"
+              style={{ flex: 1, marginRight: 5 }}
+            />
+            <TextInput
+              label="Stock"
+              mode="outlined"
+              value={data.stock}
+              onChangeText={(text) => setData({ ...data, stock: text })}
+              keyboardType="numeric"
+              style={{ flex: 1, marginLeft: 5 }}
+            />
+          </View>
+
+          <TextInput
+            label="Descripcion"
+            mode="outlined"
+            multiline
+            value={data.description}
+            onChangeText={(text) => setData({ ...data, description: text })}
+            keyboardType="default"
+            numberOfLines={5}
+          />
         </Card.Content>
         <Card.Actions>
-          <Button mode="contained" onPress={buttonHandleClick}>
-            Actualizar
+          <Button
+            onPress={() => {
+              handleClick();
+            }}
+          >
+            Crear
           </Button>
         </Card.Actions>
-      </Card>
-    </View>
+      </View>
+    </Modal>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  card: {
-    width: "100%",
-    maxWidth: 500,
-  },
-});
-export default UpdateSparePartScreen;
+
+export default UpdateSparePart;

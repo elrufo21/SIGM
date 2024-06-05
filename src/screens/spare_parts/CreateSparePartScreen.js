@@ -1,105 +1,172 @@
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Dimensions, Alert } from "react-native";
 import FormComponent from "../../components/FormComponent";
 import { useContext, useState } from "react";
 import SparePartsContext from "../../context/SpareParts/SparePartsContext";
-import { Button, Card } from "react-native-paper";
+import {
+  Button,
+  Card,
+  IconButton,
+  MD3Colors,
+  Modal,
+  TextInput,
+} from "react-native-paper";
+import { Picker } from "@react-native-picker/picker";
 
-const CreateSparePartScreen = ({ navigation }) => {
-  const { createSparePart, spareParts } = useContext(SparePartsContext);
-  const [selectedValue, setSelectedValue] = useState("aceites");
+const CreateSparePartScreen = ({ visible, hideModal, handleCreate }) => {
   const [data, setData] = useState({});
 
-  const fields = [
-    {
-      name: "name",
-      label: "Nombres",
-      value: data.name,
-      type: "text",
-      setValue: (text) => setData({ ...data, name: text }),
-    },
-    {
-      name: "location",
-      label: "Ubicacion",
-      value: data.location,
-      type: "text",
-      setValue: (text) => setData({ ...data, location: text }),
-    },
-    {
-      name: "price",
-      label: "Precion por unidad",
-      value: data.price,
-      type: "number",
-      setValue: (text) => setData({ ...data, price: text }),
-    },
-    {
-      name: "stock",
-      label: "Stock",
-      value: data.stock,
-      type: "number",
-      setValue: (text) => setData({ ...data, stock: text }),
-    },
-
-    {
-      name: "type",
-      label: "Tipo",
-      value: selectedValue,
-      type: "select",
-      options: [
-        { label: "Aceites", value: "aceites" },
-        { label: "Filtros", value: "filtros" },
-        { label: "Frenos", value: "frenos" },
-        { label: "Otros", value: "otros" },
+  const handleClick = () => {
+    const newData = data;
+    newData.price = parseFloat(data.price);
+    Alert.alert(
+      "Alerta",
+      "¿Estás seguro de crear repuesto?",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "Si",
+          onPress: () => {
+            handleCreate(newData);
+            setData({
+              name: "",
+              location: "",
+              price: "",
+              type: "",
+              description: "",
+              stock: "",
+            });
+            console.log(newData);
+            hideModal();
+          },
+          style: "default",
+        },
       ],
-      valueSelectInput: selectedValue,
-      setValueSelectInput: (text) => setSelectedValue(text),
-    },
-    {
-      name: "description",
-      label: "Descripcion",
-      value: data.description,
-      type: "description",
-      setValue: (text) => setData({ ...data, description: text }),
-      numberOfLines: 3,
-      height: 100,
-      fontSize: 15,
-    },
-  ];
-
-  const buttonHandleClick = () => {
-    const newData = { ...data, type: selectedValue };
-    newData.price = parseInt(newData.price); // Convertir el precio a un entero
-    console.log(newData);
-    createSparePart(newData);
-    setData({});
-    navigation.navigate("Lista");
+      { cancelable: false }
+    );
   };
 
+  const containerStyle = {
+    backgroundColor: "white",
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  };
   return (
-    <View style={styles.container}>
-      <Card style={styles.card}>
-        <Card.Title title="Crear Repuesto" />
+    <Modal
+      visible={visible}
+      onDismiss={hideModal}
+      contentContainerStyle={containerStyle}
+    >
+      <View style={{ width: Dimensions.get("window").width - 100 }}>
+        <Card.Title
+          title="Registrar nuevo repuesto"
+          subtitle="Complete todos los campos"
+          left={(props) => (
+            <IconButton
+              icon="toolbox"
+              iconColor={MD3Colors.primary50}
+              size={24}
+              onPress={() => console.log("Pressed")}
+            />
+          )}
+        />
         <Card.Content>
-          <FormComponent fields={fields} buttonSelect={false} />
+          <TextInput
+            label="Nombre"
+            value={data.name}
+            onChangeText={(text) => setData({ ...data, name: text })}
+            mode="outlined"
+          />
+          <TextInput
+            label="Ubicacion"
+            value={data.location}
+            onChangeText={(text) => setData({ ...data, location: text })}
+            mode="outlined"
+          />
+          <Picker
+            selectedValue={data.type}
+            onValueChange={(value) => setData({ ...data, type: value })}
+          >
+            <Picker.Item label="Filtros" value="Filtros" />
+            <Picker.Item
+              label="Aceites y Lubricantes"
+              value="Aceites y Lubricantes"
+            />
+            <Picker.Item label="Frenos" value="Frenos" />
+            <Picker.Item
+              label="Sistema de Suspensión"
+              value="Sistema de Suspensión "
+            />
+            <Picker.Item label="Sistema de Escape" value="Sistema de Escape" />
+            <Picker.Item
+              label="Sistema de Enfriamiento"
+              value="Sistema de Enfriamiento"
+            />
+            <Picker.Item label="Sistema Eléctrico" value="Sistema Eléctrico" />
+            <Picker.Item
+              label="Componentes del Motor"
+              value="Componentes del Motor"
+            />
+            <Picker.Item
+              label="Transmisión y Embrague"
+              value="Transmisión y Embrague"
+            />
+            <Picker.Item
+              label="Carrocería y Accesorios"
+              value="Carrocería y Accesorios"
+            />
+            <Picker.Item
+              label="Neumáticos y Ruedas"
+              value="Neumáticos y Ruedas"
+            />
+          </Picker>
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <TextInput
+              label="Precio"
+              mode="outlined"
+              value={data.price}
+              onChangeText={(text) => setData({ ...data, price: text })}
+              keyboardType="numeric"
+              style={{ flex: 1, marginRight: 5 }}
+            />
+            <TextInput
+              label="Stock"
+              mode="outlined"
+              value={data.stock}
+              onChangeText={(text) => setData({ ...data, stock: text })}
+              keyboardType="numeric"
+              style={{ flex: 1, marginLeft: 5 }}
+            />
+          </View>
+
+          <TextInput
+            label="Descripcion"
+            mode="outlined"
+            multiline
+            value={data.description}
+            onChangeText={(text) => setData({ ...data, description: text })}
+            keyboardType="default"
+            numberOfLines={5}
+          />
         </Card.Content>
         <Card.Actions>
-          <Button mode="contained" onPress={buttonHandleClick}>
+          <Button
+            onPress={() => {
+              handleClick();
+            }}
+          >
             Crear
           </Button>
         </Card.Actions>
-      </Card>
-    </View>
+      </View>
+    </Modal>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-  },
-  card: {
-    width: "100%",
-    maxWidth: 500,
-  },
-});
+
 export default CreateSparePartScreen;

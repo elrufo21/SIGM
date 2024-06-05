@@ -3,22 +3,17 @@ import { View, StyleSheet } from "react-native";
 import { Button, Card } from "react-native-paper";
 import FormComponent from "../../components/FormComponent";
 import EmployeesContext from "../../context/employees/EmployeesContext";
-const CreateEmployeScreen = ({ navigation, route }) => {
+const CreateEmployeScreen = ({ navigation, visible, hideModal }) => {
   const { createEmployee, employees } = useContext(EmployeesContext);
   const [data, setData] = useState({});
-  /*Valores para el select input */
-  //Lo del picker mas adelante ira en un context
-  //Al momento de crear un primer empleado no se carga el rol y algunos campos necesarios.
 
   const [selectedValue, setSelectedValue] = useState("Mecanico");
-
-  /* */
 
   const buttonHandleClick = async () => {
     const emp = {
       ...data,
       rol: selectedValue,
-      status: "1",
+      status: "0",
       id: employees.length + 1,
     };
 
@@ -68,19 +63,26 @@ const CreateEmployeScreen = ({ navigation, route }) => {
     },
   ];
   return (
-    <View style={styles.container}>
-      <Card style={styles.card}>
-        <Card.Title title="Crear Empleado" />
-        <Card.Content>
-          <FormComponent fields={fields} />
-        </Card.Content>
-        <Card.Actions>
-          <Button mode="contained" onPress={buttonHandleClick}>
-            Guardar
-          </Button>
-        </Card.Actions>
-      </Card>
-    </View>
+    <Modal
+      visible={visible}
+      onDismiss={hideModal}
+      contentContainerStyle={containerStyle}
+    >
+      <View style={{ width: Dimensions.get("window").width - 100 }}>
+        <Card>
+          <Card.Title title="Crear Empleado" />
+          <Card.Content></Card.Content>
+          <Card.Actions>
+            <Button mode="contained" onPress={hideModal}>
+              Cancelar
+            </Button>
+            <Button >
+              Enviar
+            </Button>
+          </Card.Actions>
+        </Card>
+      </View>
+    </Modal>
   );
 };
 const styles = StyleSheet.create({

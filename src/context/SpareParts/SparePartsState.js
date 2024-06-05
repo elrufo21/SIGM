@@ -24,7 +24,6 @@ const SparePartState = (props) => {
       type: "GET_SPARE_PART",
       payload: sparePart,
     });
-    console.log(sparePart);
   };
   const createSparePart = async (sparePart) => {
     const rs = await createData(

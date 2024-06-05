@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EmployeesScreen from "./EmployeesScreen";
-import CreateEmployeScreen from "./CreateEmployeeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import EmployeeScreen from "./EmployeeScreen";
 import UpdateEmployeeScreen from "./UpdateEmployeeScreen";
@@ -24,15 +23,7 @@ const Employees = () => {
             ),
           }}
         />
-        <Tab.Screen
-          name="Crear"
-          component={CreateEmployeScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Entypo name="add-to-list" size={size} color={color} />
-            ),
-          }}
-        />
+        
         <Tab.Screen
           name="Empleado"
           component={EmployeeScreen}
@@ -42,15 +33,7 @@ const Employees = () => {
             ),
           }}
         />
-        <Tab.Screen
-          name="Actualizar"
-          component={UpdateEmployeeScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialIcons name="update" size={size} color={color} />
-            ),
-          }}
-        />
+     
       </Tab.Navigator>
     </EmployeesState>
   );
